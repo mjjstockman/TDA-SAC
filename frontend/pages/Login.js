@@ -2,7 +2,7 @@
 import React from 'react'
 import { useState } from 'react';
 
-const Login = () => {
+const Login = (props) => {
 
   const [disabled, setDisabled] = useState(false);
 
@@ -10,7 +10,7 @@ const Login = () => {
       setDisabled(true)
       e.preventDefault()
 
-      props.client.login(e.target.username.value, e.target.password.value)
+      props.client.login(e.target.email.value, e.target.password.value)
       .then(response => {
           console.log(response)
           setDisabled(false)
@@ -25,8 +25,8 @@ const Login = () => {
   return (
     <div>
       <form className='space-y-4 flex flex-col' onSubmit={(e) => submitHandler(e)}>
-        <input type="text" placeholder="Email" className="input input-bordered w-full max-w-xs" disabled={disabled} />
-        <input type="text" placeholder="Password" className="input input-bordered w-full max-w-xs" disabled={disabled} />
+        <input id='email' type="text" placeholder="Email" className="input input-bordered w-full max-w-xs" disabled={disabled} />
+        <input id='password' type="text" placeholder="Password" className="input input-bordered w-full max-w-xs" disabled={disabled} />
         <button className="btn btn-outline btn-primary" disabled={disabled}>Login</button>
       </form>
     </div>
