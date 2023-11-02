@@ -5,9 +5,8 @@ import dayjs from "dayjs";
 const Calendar = () => {
   const [dates, setDates] = useState([]);
   const [days, setDays] = useState([]);
-
-  const startDate = dayjs().date(-1).format("DD");
-  const endDate = dayjs().date(40).format("DD");
+  const [currentDate, setCurrentDate] = useState(null);
+  const [currentDateNotes, setCurrentDateNotes] = useState(null);
 
   const month = dayjs().format("MMMM");
   const year = dayjs().format("YYYY");
@@ -20,27 +19,37 @@ const Calendar = () => {
     setDays(dayArray);
   };
 
-  const generateDates = () => {
+  const generateDates = (selectedDate) => {
     const dateArray = [];
 
     for (let i = -1; i < 41; i++) {
-      dateArray.push(dayjs().date(i).format("DD"));
+      const formattedDate = dayjs().date(i).format("DD");
+      dateArray.push(formattedDate);
+      if (selectedDate && formattedDate === selectedDate) {
+        setCurrentDate(formattedDate);
+      }
     }
     setDates(dateArray);
-    // console.log(dateArray);
   };
-
-  console.log(dates);
 
   useEffect(() => {
     generateDates();
-  }, []);
-
-  useEffect(() => {
     generateDay();
   }, []);
 
-  const notes = "my note here";
+  const handleButtonClick = (date) => {
+    setCurrentDate(date);
+    const savedNotes = localStorage.getItem(`notes_${date}`);
+    setCurrentDateNotes(savedNotes || "");
+    document.getElementById("modal").showModal();
+  };
+
+  const handleSaveNotes = () => {
+    localStorage.setItem(`notes_${currentDate}`, currentDateNotes);
+    document.getElementById("modal").close();
+  };
+
+  const notes = "";
 
   return (
     <div>
@@ -56,18 +65,39 @@ const Calendar = () => {
             </div>
           ))}
           {dates.map((date, index) => (
-            <div>
+            <div key={index}>
+              {currentDateNotes ? (
               <button
-                key={index}
-                onClick={() => document.getElementById("modal").showModal()}
+                onClick={() => handleButtonClick(date)}
+                className="btn btn-ghost btn-lg bg-green-500"
+              >
+                {date}
+              </button>
+              ) : (
+              <button
+                onClick={() => handleButtonClick(date)}
                 className="btn btn-ghost btn-lg"
               >
                 {date}
               </button>
+              )}              
               <dialog id="modal" className="modal">
-                <div className="modal-box">
-                  <h3 className="font-bold text-lg">{date}</h3>
-                  <p className="py-4">{notes}</p>
+                <div className="modal-box flex flex-col items-center gap-4">
+                  <h3 className="font-bold text-lg">{currentDate}</h3>
+                  {currentDateNotes ? (
+                    <p className="py-4">{currentDateNotes}</p>
+                  ) : (
+                    <input
+                      type="text"
+                      value={currentDateNotes}
+                      onChange={(e) => setCurrentDateNotes(e.target.value)}
+                      placeholder="Add notes..."
+                      className="p-2 border border-gray-300 rounded"
+                    />
+                  )}
+                  <button onClick={handleSaveNotes} className="btn btn-primary w-1/4">
+                    Save Notes
+                  </button>
                 </div>
                 <form method="dialog" className="modal-backdrop">
                   <button id="closeButton"></button>
@@ -80,5 +110,24 @@ const Calendar = () => {
     </div>
   );
 };
+
+// const [startOfMonth, setStartOfMonth] = useState([]);
+// const [endOfMonth, setEndOfMonth] = useState([]);
+// const generatorCurrentMonth = (
+//   month = dayjs().month(),
+//   year = dayjs().year()
+// ) => {
+//   const startOfMonth = dayjs().year(year).month(month).startOf("month");
+//   const endOfMonth = dayjs().year(year).month(month).endOf("month");
+//   setStartOfMonth(startOfMonth);
+//   setEndOfMonth(endOfMonth);
+// };
+// console.log(startOfMonth);
+// console.log(endOfMonth);
+//
+// const endDate = dayjs().date(40).format("DD");
+// useEffect(() => {
+//   generatorCurrentMonth();
+// }, []);
 
 export default Calendar;
