@@ -1,10 +1,19 @@
-import Login from '@/pages/Login'
-import Image from 'next/image'
+"use client";
+import Login from "@/pages/Login";
+import Image from "next/image";
+import { ApiClient } from "@/apiClient";
 
 export default function Home() {
+  const client = new ApiClient(
+    () => localStorage.getItem("token"),
+    () => {
+      localStorage.removeItem("token");
+      window.location.href = "/";
+    }
+  );
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <Login />
+    <main className="flex bg-white min-h-screen flex-col items-center justify-between p-24">
+      <Login loggedIn={(token) => login(token)} client={client} />
     </main>
-  )
+  );
 }
