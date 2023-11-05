@@ -1,23 +1,21 @@
-
-import Calendar from "@/components/Calendar";
+import CalendarUI from "@/components/Calendar";
+import DaysRemaining from "@/components/DaysRemaining";
 import Table from "@/components/Table";
 
 const Dashboard = () => {
-
-
-
   return (
     <div>
-      <div className="text-2xl">
+      <div className="text-2xl flex justify-between">
         Your Bookings
-        <div className="py-4">
-          <Table/> 
-        </div>
+        <DaysRemaining />
+      </div>
+      <div className="px-20 py-10">
+        <Table />
       </div>
       <div className="text-2xl">
         Upcoming . . .
         <div>
-          <Calendar/>
+          <CalendarUI />
         </div>
       </div>
     </div>
