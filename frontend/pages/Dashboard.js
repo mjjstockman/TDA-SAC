@@ -1,6 +1,7 @@
 import CalendarUI from "@/components/Calendar";
 import DaysRemaining from "@/components/DaysRemaining";
 import Table from "@/components/Table";
+import Login from "./Login";
 
 const Dashboard = () => {
   return (

@@ -556,13 +556,10 @@ from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-
-
 class TestGetWurst():
     def setup_method(self, method):
         self.driver = webdriver.Chrome()
         self.vars = {}
-
     def teardown_method(self, method):
         self.driver.quit()
  
@@ -855,7 +852,6 @@ if 'USE_AWS' in os.environ:
         'Expires': 'Thu, 31 Dec 2099 20:00:00 GMT',
         'CacheControl': 'max-age=94608000',
     }
-
     # Bucket Config
     AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
     AWS_S3_REGION_NAME = 'eu-west-2'
@@ -871,7 +867,6 @@ if 'USE_AWS' in os.environ:
     STATICFILES_LOCATION = 'static'
     DEFAULT_FILE_STORAGE = 'custom_storages.MediaStorage'
     MEDIAFILES_LOCATION = 'media'
-
     # Override static and media URLs in production
     STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATICFILES_LOCATION}/'
     MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIAFILES_LOCATION}/'
@@ -894,12 +889,8 @@ values from the credentails.csv file from Step 6 in Add a user to the group abov
 ```
 from django.conf import settings
 from storages.backends.s3boto3 import S3Boto3Storage
-
-
 class StaticStorage(S3Boto3Storage):
     location = settings.STATICFILES_LOCATION
-
-
 class MediaStorage(S3Boto3Storage):
     location = settings.MEDIAFILES_LOCATION
 ```
@@ -1182,7 +1173,6 @@ Wet menu/all template
                 <h2>NO PRODUCTS YET</h2>
                 {% endfor %}
              </div>  <!-- closes row -->
-
              <h2>Currywurst</h2>
              <div class="row">
                  {% for product in products %}
@@ -1190,7 +1180,6 @@ Wet menu/all template
                  
                  <div class="col-md-6 col-lg-4 mb-3">
                      <div class="card">
-
 ```
 
 Used partial template to DRY
@@ -1233,14 +1222,12 @@ Django field labels not working once added css
 class QuestionForm(forms.ModelForm):
     email_on_answer = forms.CharField(widget=forms.CheckboxInput(attrs={"class": "rounded-0"}))
     body = forms.CharField(widget=forms.TextInput(attrs={"class": "rounded-0"}))
-
     class Meta:
         model = Question
         fields = ['body', 'email_on_answer']
         labels = {
             'body': 'Question',
         }
-
 ```
 
 Add as below instead....

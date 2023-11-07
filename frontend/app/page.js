@@ -1,6 +1,5 @@
 "use client";
 import Login from "@/pages/Login";
-import Image from "next/image";
 import { ApiClient } from "@/apiClient";
 
 export default function Home() {
