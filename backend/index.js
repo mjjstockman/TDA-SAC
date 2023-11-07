@@ -30,7 +30,7 @@ app.use(
 );
 
 app.use(express.json());
-app.use(morgan);
+app.use(morgan("dev"));
 app.use(helmet());
 
 app.get("/", async (_, res, next) => {
