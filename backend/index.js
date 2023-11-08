@@ -33,6 +33,21 @@ app.use(express.json());
 app.use(morgan("dev"));
 app.use(helmet());
 
+app.post("/auth", async (req, res) => {
+  console.log("arrived");
+  console.log(req.body);
+  const user = await User.findOne({ email: req.body.username });
+  if (!user) {
+    return res.sendStatus(401);
+  }
+  if (req.body.password !== user.password) {
+    return res.sendStatus(403);
+  }
+  user.token = uuidv4();
+  await user.save();
+  res.send({ token: user.token });
+});
+
 app.get("/", async (_, res, next) => {
   try {
     const users = await User.find();
