@@ -53,8 +53,8 @@ app.post("/auth", async (req, res) => {
 app.use(("/user"), userRoutes)
 app.get('/users', async(_, res, next) => {
   try {
-    const users = await User.find();
-    res.send(users);
+    const data = await User.find();
+    res.send(data);
   } catch (err) {
     return next(createError(500, "Internal Server Error"))
   }

@@ -6,6 +6,7 @@ const GetUsers = (props) => {
 
   const refreshList = () => {
     props.client.getUsers().then((response) => {
+      console.log(response.data);
       setUsers(response.data);
     });
   };
@@ -49,7 +50,7 @@ const GetUsers = (props) => {
                     <input
                       type="checkbox"
                       className="scale-75 toggle checked:bg-green-500"
-                      defaultChecked={user.active ? (true) : (false)}
+                      defaultChecked={user.active ? true : false}
                     />
                   </th>
                   <th>

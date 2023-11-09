@@ -5,11 +5,11 @@ const Register = (props) => {
     e.preventDefault();
 
     props.client.register(
-        e.target.email.value,
-        e.target.password.value,
-        e.target.role.value,
-        e.target.team.value
-      )
+      e.target.email.value,
+      e.target.password.value,
+      e.target.role.value,
+      e.target.team.value
+    );
   };
 
   return (
