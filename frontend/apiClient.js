@@ -25,6 +25,10 @@ export class ApiClient {
     return this.authenticatedCall("get", `${url}users`);
   }
 
+  getTeams() {
+    return this.authenticatedCall("get", `${url}teams`);
+  }
+
   //   removeAd(id) {
   //     return this.authenticatedCall("delete", `${url}${id}`);
   //   }
