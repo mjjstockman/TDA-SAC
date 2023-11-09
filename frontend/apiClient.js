@@ -25,28 +25,37 @@ export class ApiClient {
     });
   }
 
-  //   getAds() {
-  //     return this.authenticatedCall("get", url);
-  //   }
-
-  //   addAd(name, price) {
-  //     return this.authenticatedCall("post", url, { name, price });
-  //   }
+  getUsers() {
+    return this.authenticatedCall("get", `${url}users`);
+  }
 
   //   removeAd(id) {
   //     return this.authenticatedCall("delete", `${url}${id}`);
   //   }
 
-  //   updateAd(id, name, price) {
-  //     return this.authenticatedCall("put", `${url}${id}`, { name, price });
-  //   }
+  //For admin to add users to database
+  register(email, password, role, team, date, active) {
+    return this.authenticatedCall("post", `${url}user/register`, {
+      email,
+      password,
+      role,
+      team,
+      date,
+      active,
+    });
+  }
 
   async login(username, password) {
     console.log(username, password);
-    return await axios({
-      method: "post",
-      url: `${url}auth`,
-      data: { username, password },
+  }
+  // for User to update own info
+  updateUser(id, name, username, forename, surname, icon) {
+    return this.authenticatedCall("put", `${url}${id}`, {
+      name,
+      username,
+      forename,
+      surname,
+      icon,
     });
   }
 }
