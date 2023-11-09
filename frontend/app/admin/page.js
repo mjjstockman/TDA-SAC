@@ -1,76 +1,36 @@
-import React from "react";
+"use client";
+import Register from "@/components/Register";
+import { React, useState } from "react";
+import { ApiClient } from "@/apiClient";
+import GetTeams from "@/components/GetTeams";
+import GetUsers from "@/components/GetUsers";
 
 const Admin = () => {
+
+  const [token, changeToken] = useState(window.localStorage.getItem("token"));
+  const client = new ApiClient(
+    () => token,
+    () => logout()
+  );
+ 
+  const login = (token) => {
+    window.localStorage.setItem("token", token);
+    changeToken(token);
+  };
+  const logout = () => {
+    window.localStorage.removeItem("token");
+    changeToken(undefined);
+  };
+
   return (
     <main className="flex min-h-screen flex-col items-center gap-10 p-20">
       Admin Page
-      <div id="addUser">
-        <form className="flex gap-4 items-center ">
-          <input
-            type="text"
-            placeholder="Email"
-            className="text-center input input-bordered w-full max-w-xs"
-          />
-          <input
-            type="text"
-            placeholder="Password"
-            className="text-center input input-bordered w-full max-w-xs"
-          />
-          <input
-            type="text"
-            placeholder="Role"
-            className="text-center input input-bordered w-full max-w-xs"
-          />
-          <input
-            type="text"
-            placeholder="Team"
-            className="text-center input input-bordered w-full max-w-xs"
-          />
-          <button className="btn btn-ghost btn-xs">Add</button>
-        </form>
-      </div>
-      <div>
-        <div className="overflow-x-auto">
-          <table className="table">
-            {/* head */}
-            <thead>
-              <tr>
-                <th>Email</th>
-                <th>Password</th>
-                <th>Role</th>
-                <th>Team</th>
-                <th>Status</th>
-                <th></th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {/* row 1 */}
-              <tr>
-                <td>
-                  <div className="flex items-center space-x-3">
-                    <div>
-                      <div className="font-bold">test@test.com</div>
-                    </div>
-                  </div>
-                </td>
-                <td>password</td>
-                <td>Admin</td>
-                <td>General</td>
-                <th>
-                  <input type="checkbox" className="scale-75 toggle"/>
-                </th>
-                <th>
-                  <button className="btn btn-ghost btn-xs">Edit</button>
-                </th>
-                <th>
-                  <button className="btn btn-ghost btn-xs">Delete</button>
-                </th>
-              </tr>
-            </tbody>
-            {/* foot */}
-          </table>
+      <Register client={client} />
+        <div>
+          <GetTeams client={client}/>
         </div>
+        <div className="py-12">
+          <GetUsers client={client}/>
       </div>
     </main>
   );
