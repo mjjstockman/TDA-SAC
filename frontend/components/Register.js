@@ -1,15 +1,31 @@
-import React from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 
 const Register = (props) => {
+  const [manager, setManager] = useState();
+  const [member, setMember] = useState();
+
   const submitHandler = (e) => {
     e.preventDefault();
 
-    props.client.register(
-      e.target.email.value,
-      e.target.password.value,
-      e.target.role.value,
-      e.target.team.value
-    );
+    props.client
+      .register(
+        e.target.email.value,
+        e.target.password.value,
+        e.target.role.value,
+        e.target.team.value
+      )
+      .then(() => {
+        refreshList();
+      });
+    if (e.target.role.value === "manager") {
+      setManager(e.target.email.value);
+    } else {
+      setMember(e.target.email.value);
+    }
+    props.client.createTeam(e.target.team.value, manager, member).then(() => {
+      props.refreshList();
+    });
   };
 
   return (

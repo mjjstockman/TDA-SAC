@@ -7,9 +7,10 @@ const cors = require("cors");
 require("dotenv").config();
 const createError = require("http-errors");
 const { User } = require("./models/user");
-const { Team } =  require("./models/team")
+const { Team } = require("./models/team");
 const { v4: uuidv4 } = require("uuid");
 const userRoutes = require("./routes/userRoutes");
+const teamRoutes = require("./routes/teamRoutes");
 
 const port = 3001;
 
@@ -60,6 +61,7 @@ app.get("/users", async (_, res, next) => {
   }
 });
 
+app.use("/team", teamRoutes);
 app.get("/teams", async (_, res, next) => {
   try {
     const data = await Team.find();

@@ -37,7 +37,7 @@ exports.update = async (req, res, next) => {
     password,
     forename,
     surename,
-    username : forename + " " + surename,
+    username: forename + " " + surename,
     icon,
   };
 
@@ -46,4 +46,10 @@ exports.update = async (req, res, next) => {
   res.status(201).send({
     message: "User updated",
   });
+};
+
+exports.remove = async (req, res, next) => {
+  
+  User.findAndDeleteById(_id);
+
 };

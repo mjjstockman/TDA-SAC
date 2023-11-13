@@ -6,7 +6,6 @@ const GetTeams = (props) => {
 
   const refreshList = () => {
     props.client.getTeams().then((response) => {
-      console.log(response.data);
       setTeams(response.data);
     });
   };
@@ -59,12 +58,12 @@ const GetTeams = (props) => {
                         <h3 className="font-bold text-lg">{team.name}</h3>
                         <p className="py-4">{team.manager}</p>
                         {team.members?.map((member) => {
-                      return (
-                        <ul id="members" className="py-2">
-                          <li>{member}</li>
-                        </ul>
-                      );
-                    })}
+                          return (
+                            <ul id="members" className="py-2">
+                              <li>{member}</li>
+                            </ul>
+                          );
+                        })}
                       </div>
                       <form method="dialog" className="modal-backdrop">
                         <button>close</button>

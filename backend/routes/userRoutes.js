@@ -4,5 +4,6 @@ const UserController = require('../controllers/userController');
 
 router.post('/register', UserController.register);
 router.post('/update', UserController.update);
+router.post('/remove', UserController.remove);
 
 module.exports = router;
