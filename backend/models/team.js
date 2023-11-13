@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const teamSchema = mongoose.Schema({
-  title: String,
+  name: String,
   manager: String,
   members: Array,
   date: String,

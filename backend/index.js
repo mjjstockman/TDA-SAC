@@ -7,8 +7,10 @@ const cors = require("cors");
 require("dotenv").config();
 const createError = require("http-errors");
 const { User } = require("./models/user");
+const { Team } = require("./models/team");
 const { v4: uuidv4 } = require("uuid");
-const userRoutes = require('./routes/userRoutes')
+const userRoutes = require("./routes/userRoutes");
+const teamRoutes = require("./routes/teamRoutes");
 
 const port = 3001;
 
@@ -34,7 +36,6 @@ app.use(express.json());
 app.use(morgan("dev"));
 app.use(helmet());
 
-
 app.post("/auth", async (req, res) => {
   console.log("arrived");
   console.log(req.body);
@@ -50,16 +51,25 @@ app.post("/auth", async (req, res) => {
   res.send({ token: user.token });
 });
 
-app.use(("/user"), userRoutes)
-app.get('/users', async(_, res, next) => {
+app.use("/user", userRoutes);
+app.get("/users", async (_, res, next) => {
   try {
     const data = await User.find();
     res.send(data);
   } catch (err) {
-    return next(createError(500, "Internal Server Error"))
+    return next(createError(500, "Internal Server Error"));
   }
-})
+});
 
+app.use("/team", teamRoutes);
+app.get("/teams", async (_, res, next) => {
+  try {
+    const data = await Team.find();
+    res.send(data);
+  } catch (err) {
+    return next(createError(500, "Internal Server Error"));
+  }
+});
 
 app.get("/", async (_, res, next) => {
   try {

@@ -6,10 +6,14 @@ const GetUsers = (props) => {
 
   const refreshList = () => {
     props.client.getUsers().then((response) => {
-      console.log(response.data);
       setUsers(response.data);
     });
   };
+
+  const removeUser = (_id) => {
+    props.client.removeUser(_id).then(() => refreshList());
+  };
+
 
   useEffect(() => {
     refreshList();
@@ -54,10 +58,20 @@ const GetUsers = (props) => {
                     />
                   </th>
                   <th>
-                    <button className="btn btn-ghost btn-xs">Edit</button>
+                    <button
+                      className="btn btn-ghost btn-xs"
+                      onClick={() => updateUser(user._id)}
+                    >
+                      Edit
+                    </button>
                   </th>
                   <th>
-                    <button className="btn btn-ghost btn-xs">Delete</button>
+                    <button
+                      className="btn btn-ghost btn-xs"
+                      onClick={() => removeUser(user._id)}
+                    >
+                      Delete
+                    </button>
                   </th>
                 </tr>
               );

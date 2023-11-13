@@ -13,7 +13,6 @@ const Login = (props) => {
     props.client
       .login(e.target.email.value, e.target.password.value)
       .then((response) => {
-        console.log(response);
         setDisabled(false);
         props.loggedIn(response.data.token);
         if (response?.status === 200) {
@@ -21,7 +20,6 @@ const Login = (props) => {
         }
       })
       .catch((error) => {
-        console.log(error);
         setDisabled(false);
         alert("Login failed");
       });
