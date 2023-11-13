@@ -20,6 +20,14 @@ export class ApiClient {
     });
   }
 
+  async login(username, password) {
+    console.log(username, password);
+    return await axios({
+      method: "post",
+      url: `${url}auth`,
+      data: { username, password },
+    });
+  }
 
   getUsers() {
     return this.authenticatedCall("get", `${url}users`);
@@ -41,10 +49,10 @@ export class ApiClient {
     });
   }
 
-  async login(username, password) {
-    console.log(username, password);
-  }
-  
+  // async login(username, password) {
+  //   console.log(username, password);
+  // }
+
   // for User to update own info
   updateUser(id, name, username, forename, surname, icon) {
     return this.authenticatedCall("put", `${url}${id}`, {
