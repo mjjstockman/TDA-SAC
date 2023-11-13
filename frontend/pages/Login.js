@@ -1,10 +1,11 @@
 "use client";
 import React from "react";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const Login = (props) => {
   const [disabled, setDisabled] = useState(false);
-
+  const router = useRouter();
   const submitHandler = (e) => {
     setDisabled(true);
     e.preventDefault();
@@ -14,6 +15,9 @@ const Login = (props) => {
       .then((response) => {
         setDisabled(false);
         props.loggedIn(response.data.token);
+        if (response?.status === 200) {
+          router.push("/dashtest/");
+        }
       })
       .catch((error) => {
         setDisabled(false);
