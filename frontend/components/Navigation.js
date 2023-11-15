@@ -4,6 +4,8 @@ import { FaXmark } from "react-icons/fa6";
 
 const Navigation = (props) => {
   const [modalOneOpen, setModalOneOpen] = useState(false);
+  const [startingDate, setStartDate] = useState("");
+  const [endingDate, setEndDate] = useState("");
 
   const openModalOne = () => {
     setModalOneOpen(true);
@@ -22,17 +24,18 @@ const Navigation = (props) => {
     setModalTwoOpen(false);
   };
 
+  const handleStartDateChange = (e) => {
+    setStartDate(e.target.value);
+    console.log("Selected start date:", startingDate);
+  };
+
+  const handleEndDateChange = (e) => {
+    setEndDate(e.target.value);
+    console.log("Selected end date:", endingDate);
+  };
+
   const submitSickLeaveHandler = async (e) => {
     e.preventDefault();
-
-    // title: String,
-    // userid: String,
-    // email: String,
-    // startDate: String,
-    // endDate: String,
-    // totalDays: Number,
-    // colour: String,
-    // note: String,
 
     const title = e.target.reason.value;
     const userid = "6554d0c1e8e867d732f10eeb";
@@ -41,6 +44,30 @@ const Navigation = (props) => {
     const colour = "#FFA500";
 
     props.client.addSickLeave(title, userid, email, colour, note);
+
+    e.target.reset();
+  };
+
+  const submitAnnualLeaveHandler = async (e) => {
+    e.preventDefault();
+
+    const title = e.target.title.value;
+    const userid = "6554d0c1e8e867d732f10eeb";
+    const email = "userOne";
+    const startDate = startingDate;
+    const endDate = endingDate;
+    const note = e.target.holidayNote.value;
+    const colour = "#4682B4";
+
+    props.client.addAnnualLeave(
+      title,
+      userid,
+      email,
+      startDate,
+      endDate,
+      colour,
+      note
+    );
 
     e.target.reset();
   };
@@ -127,7 +154,10 @@ const Navigation = (props) => {
             <FaXmark />
           </button>
           <h3 className="font-bold text-lg">Add Annual Leave</h3>
-          <form className="py-4 gap-4 flex flex-col">
+          <form
+            className="py-4 gap-4 flex flex-col"
+            onSubmit={submitAnnualLeaveHandler}
+          >
             <input
               id="title"
               type="text"
@@ -139,6 +169,8 @@ const Navigation = (props) => {
               <input
                 id="startDate"
                 type="date"
+                value={startingDate}
+                onChange={handleStartDateChange}
                 className="bordered w-fit max-w-xs p-2"
               />
             </div>
@@ -147,6 +179,8 @@ const Navigation = (props) => {
               <input
                 id="endDate"
                 type="date"
+                value={endingDate}
+                onChange={handleEndDateChange}
                 className="bordered w-fit max-w-xs p-2"
               />
             </div>

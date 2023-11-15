@@ -36,13 +36,13 @@ export class ApiClient {
   getTeams() {
     return this.authenticatedCall("get", `${url}teams`);
   }
-  
+
   getSicks() {
     return this.authenticatedCall("get", `${url}sicks`);
   }
 
   existingTeams(id) {
-    return this.authenticatedCall("get", `${url}teams/${id}`)
+    return this.authenticatedCall("get", `${url}teams/${id}`);
   }
 
   //   removeAd(id) {
@@ -67,6 +67,19 @@ export class ApiClient {
       title,
       userid,
       email,
+      colour,
+      note,
+    });
+  }
+
+  //For user to add anunal leave to database
+  addAnnualLeave(title, userid, email, startDate, endDate, colour, note) {
+    return this.authenticatedCall("post", `${url}holiday/register`, {
+      title,
+      userid,
+      email,
+      startDate,
+      endDate,
       colour,
       note,
     });

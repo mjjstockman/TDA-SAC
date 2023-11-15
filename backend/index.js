@@ -12,6 +12,7 @@ const { v4: uuidv4 } = require("uuid");
 const userRoutes = require("./routes/userRoutes");
 const teamRoutes = require("./routes/teamRoutes");
 const sickRoutes = require("./routes/sickRoutes");
+const holidayRoutes = require("./routes/holidayRoutes");
 
 const port = 3001;
 
@@ -91,6 +92,8 @@ app.get('/teams/:id', async (req, res, next) => {
 });
 
 app.use("/sick", sickRoutes);
+
+app.use("/holiday", holidayRoutes);
 
 app.get("/", async (_, res, next) => {
   try {
