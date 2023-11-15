@@ -13,7 +13,7 @@ exports.register = async (req, res, next) => {
   const user = new User({
     email,
     password: encryptedPass,
-    lastPasswordChanged: dayjs().format("DD/MM/YYYY | HH:mm:ss"),
+    lastPasswordChanged: today,
     role,
     team,
     date: today,

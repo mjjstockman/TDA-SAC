@@ -1,8 +1,9 @@
 const { Team } = require("../models/team");
+const dayjs = require("dayjs")
 
 exports.register = async (req, res, next) => {
   const { name, manager } = req.body;
-  const today = new Date();
+  const today = dayjs().format("DD/MM/YYYY | HH:mm:ss");
 
   try {
     const team = new Team({

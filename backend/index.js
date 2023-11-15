@@ -11,6 +11,7 @@ const { Team } = require("./models/team");
 const { v4: uuidv4 } = require("uuid");
 const userRoutes = require("./routes/userRoutes");
 const teamRoutes = require("./routes/teamRoutes");
+const sickRoutes = require("./routes/sickRoutes");
 
 const port = 3001;
 
@@ -72,6 +73,24 @@ app.get("/teams", async (_, res, next) => {
     return next(createError(500, "Internal Server Error"));
   }
 });
+
+app.get('/teams/:id', async (req, res, next) => {
+  const teamId = req.params.id;
+
+  try {
+    const team = await Team.findById(teamId);
+
+    if (!team) {
+      return next(createError(404, 'Team not found'));
+    }
+
+    res.send(team);
+  } catch (err) {
+    return next(createError(500, 'Internal Server Error'));
+  }
+});
+
+app.use("/sick", sickRoutes);
 
 app.get("/", async (_, res, next) => {
   try {

@@ -4,6 +4,10 @@ import React, { useState, useEffect } from "react";
 const Register = (props) => {
   const [selectedRole, setSelectedRole] = useState(null);
 
+  const existingTeams = async (id) => {
+    return await props.client.existingTeams(id);
+  }
+
 
   const handleRoleClick = async (roleName) => {
     setSelectedRole(roleName);
@@ -17,9 +21,14 @@ const Register = (props) => {
     const team = e.target.team.value;
   
     const role = selectedRole;
+
+    const teamExists = await existingTeams(team.id);
   
-    if (role !== "Manager") {
+    if (role !== "Manager" && team !== teamExists) {
       props.client.register(email, password, role, team);
+
+      const members = e.target.email.value
+      props.client.updateTeam(members)
     } else {
       
       const manager = e.target.email.value
@@ -46,10 +55,6 @@ const Register = (props) => {
     window.location.reload();
   };
 
-  // useEffect(() => {
-  //   refreshMiniTeamList();
-  // }, []);
-
   return (
     <div id="addUser">
       <form className="flex gap-4 items-center" onSubmit={submitHandler}>
@@ -71,7 +76,7 @@ const Register = (props) => {
           </label>
           <ul
             tabIndex={0}
-            className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+            className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-40"
           >
             {roles?.map((role) => (
               <li key={role}>

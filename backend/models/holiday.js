@@ -3,9 +3,11 @@ const mongoose = require("mongoose");
 const holidaySchema = mongoose.Schema({
   title: String,
   username: String,
-  date: String,
+  startDate: String,
+  endDate: String,
+  totalDays: Number,
   colour: String,
-  description: String,
+  note: String,
   remaining: Number,
   approved: Boolean,
 });

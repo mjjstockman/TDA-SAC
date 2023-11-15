@@ -36,6 +36,14 @@ export class ApiClient {
   getTeams() {
     return this.authenticatedCall("get", `${url}teams`);
   }
+  
+  getSicks() {
+    return this.authenticatedCall("get", `${url}sicks`);
+  }
+
+  existingTeams(id) {
+    return this.authenticatedCall("get", `${url}teams/${id}`)
+  }
 
   //   removeAd(id) {
   //     return this.authenticatedCall("delete", `${url}${id}`);
@@ -50,6 +58,17 @@ export class ApiClient {
       team,
       date,
       active,
+    });
+  }
+
+  //For user to add sick leave to database
+  addSickLeave(title, userid, email, colour, note) {
+    return this.authenticatedCall("post", `${url}sick/register`, {
+      title,
+      userid,
+      email,
+      colour,
+      note,
     });
   }
 

@@ -1,6 +1,6 @@
 "use client";
 import Register from "@/components/Register";
-import { React, useState } from "react";
+import React, { useState } from "react";
 import { ApiClient } from "@/apiClient";
 import GetTeams from "@/components/GetTeams";
 import GetUsers from "@/components/GetUsers";

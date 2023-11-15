@@ -58,7 +58,7 @@ const GetTeams = (props) => {
                       className="btn text-sm"
                       onClick={() => setModalOpen(team._id)}
                     >
-                      {team.members.length}
+                      {team.members.length + 1}
                     </button>
                     <dialog id={`my_modal_${team._id}`}
                       className="modal"
