@@ -22,14 +22,12 @@ const Admin = () => {
     changeToken(undefined);
   };
 
-  const refreshList = () => {
-
-  };
-
   return (
     <main className="flex min-h-screen flex-col items-center gap-10 p-20">
       Admin Page
-      <Register client={client} />
+      <div>
+        <Register client={client} />
+      </div>
         <div>
           <GetTeams client={client} />
         </div>

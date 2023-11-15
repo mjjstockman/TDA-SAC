@@ -2,31 +2,53 @@
 import React, { useState, useEffect } from "react";
 
 const Register = (props) => {
-  const [manager, setManager] = useState();
-  const [member, setMember] = useState();
+  const [selectedRole, setSelectedRole] = useState(null);
 
-  const submitHandler = (e) => {
-    e.preventDefault();
 
-    props.client
-      .register(
-        e.target.email.value,
-        e.target.password.value,
-        e.target.role.value,
-        e.target.team.value
-      )
-      .then(() => {
-        refreshList();
-      });
-    if (e.target.role.value === "manager") {
-      setManager(e.target.email.value);
-    } else {
-      setMember(e.target.email.value);
-    }
-    props.client.createTeam(e.target.team.value, manager, member).then(() => {
-      props.refreshList();
-    });
+  const handleRoleClick = async (roleName) => {
+    setSelectedRole(roleName);
   };
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+  
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    const team = e.target.team.value;
+  
+    const role = selectedRole;
+  
+    if (role !== "Manager") {
+      props.client.register(email, password, role, team);
+    } else {
+      
+      const manager = e.target.email.value
+
+      props.client.register(email, password, role, team);
+      props.client.registerTeam(team, manager);
+    }
+  
+    e.target.reset();
+  };
+
+  const roles = [
+    "Admin",
+    "Director",
+    "Manager",
+    "Staff",
+    "Instructor",
+    "Course Manager",
+    "Marketing",
+    "Admissions",
+  ];
+
+  const refresh = () => {
+    window.location.reload();
+  };
+
+  // useEffect(() => {
+  //   refreshMiniTeamList();
+  // }, []);
 
   return (
     <div id="addUser">
@@ -43,19 +65,45 @@ const Register = (props) => {
           placeholder="Password"
           className="text-center input input-bordered w-full max-w-xs"
         />
-        <input
-          type="text"
-          id="role"
-          placeholder="Role"
-          className="text-center input input-bordered w-full max-w-xs"
-        />
+        <div className="dropdown max-w-xs">
+          <label tabIndex={0} className="btn m-1">
+            {selectedRole ? selectedRole : "Role"}
+          </label>
+          <ul
+            tabIndex={0}
+            className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+          >
+            {roles?.map((role) => (
+              <li key={role}>
+                <a onClick={() => handleRoleClick(role)}>{role}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
         <input
           type="text"
           id="team"
-          placeholder="Team"
+          placeholder="Team Name"
           className="text-center input input-bordered w-full max-w-xs"
         />
-        <button className="btn btn-ghost btn-xs">Add</button>
+        {/* <div className="dropdown max-w-xs">
+          <label tabIndex={0} className="btn m-1">
+            {selectedTeam ? selectedTeam : "Team"}
+          </label>
+          <ul
+            tabIndex={0}
+            className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+          >
+            {teams?.map((team) => (
+              <li key={team.name}>
+                <a onClick={() => handleTeamClick(team.name)}>{team.name}</a>
+              </li>
+            ))}
+          </ul>
+        </div> */}
+        <button className="btn btn-ghost btn-xs" onClick={refresh}>
+          Add
+        </button>
       </form>
     </div>
   );

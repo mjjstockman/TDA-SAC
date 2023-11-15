@@ -52,6 +52,7 @@ app.post("/auth", async (req, res) => {
 });
 
 app.use("/user", userRoutes);
+
 app.get("/users", async (_, res, next) => {
   try {
     const data = await User.find();
@@ -62,6 +63,7 @@ app.get("/users", async (_, res, next) => {
 });
 
 app.use("/team", teamRoutes);
+
 app.get("/teams", async (_, res, next) => {
   try {
     const data = await Team.find();

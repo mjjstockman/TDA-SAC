@@ -1,15 +1,13 @@
 const { Team } = require("../models/team");
-const { User } = require("../models/user"); // Import the User model
 
-exports.createTeam = async (req, res, next) => {
-  const { name } = req.body;
+exports.register = async (req, res, next) => {
+  const { name, manager } = req.body;
   const today = new Date();
-  const managerUser = await User.findOne({ role: User.email });
 
   try {
     const team = new Team({
       name,
-      manager: managerUser,
+      manager,
       date: today,
       active: true,
     });
@@ -27,42 +25,55 @@ exports.createTeam = async (req, res, next) => {
   }
 };
 
-exports.updateTeam = async (req, res, next) => {
-  const usersArr = [];
-  const teamMembersArr = [];
-  const teamName = User.team.value;
+exports.update = async (req, res, next) => {
+  const { manager, members } = req.body;
+  const { name } = req.params;
 
   try {
-    const users = await User.find({ teamName });
+    const team = await Team.findOne({ name });
 
-    for (let i = 0; i < users.length; i++) {
-      const currentUser = users[i];
-
-      usersArr.push(currentUser);
-
-      if (currentUser.teamName === teamName) {
-        teamMembersArr.push(currentUser);
-      }
+    if (!team) {
+      return next(createError(404, "Team not found"));
     }
 
-    try {
-        const team = Team({
-            members : teamMembersArr,
-        });
-    
-        await team.save();
-    
-        res.status(201).send({
-          message: "Team updated",
-        });
-      } catch (error) {
-        console.error(error);
-        res.status(500).send({
-          message: "Internal Server Error",
-        });
-      }
 
+    team.manager = manager;
+    team.members = members;
+
+    await team.save();
+
+    res.status(201).send({
+      message: "Team updated",
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({
+      message: "Internal Server Error",
+    });
+  }
+};
+
+exports.remove = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    if (!id) {
+      return next(createError(400, "Bad Request"));
+    }
+
+    const removeTeam = await Team.findByIdAndDelete(id);
+
+    // Check if the user was found and deleted
+    if (!removeTeam) {
+      return res.status(404).send({
+        message: "Team not found",
+      });
+    }
+
+    res.send({
+      message: "Team deleted",
+    });
   } catch (err) {
-    console.log(err);
+    console.error(err);
+    return next(createError(500, "Internal Server Error"));
   }
 };
