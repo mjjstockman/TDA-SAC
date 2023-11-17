@@ -5,7 +5,7 @@ const getSick = (props) => {
   const [sicks, setSicks] = useState([]);
 
   const refreshList = () => {
-    props.client.getTeams().then((response) => {
+    props.client.getSicks().then((response) => {
         setSicks(response.data);
     });
   };

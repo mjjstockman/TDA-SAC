@@ -1,5 +1,5 @@
 const { Team } = require("../models/team");
-const dayjs = require("dayjs")
+const dayjs = require("dayjs");
 const createError = require("http-errors");
 
 exports.register = async (req, res, next) => {
@@ -28,34 +28,6 @@ exports.register = async (req, res, next) => {
 };
 
 exports.update = async (req, res, next) => {
-  const { manager, members } = req.body;
-  const { name } = req.params;
-
-  try {
-    const team = await Team.findOne({ name });
-
-    if (!team) {
-      return next(createError(404, "Team not found"));
-    }
-
-
-    team.manager = manager;
-    team.members = members;
-
-    await team.save();
-
-    res.status(201).send({
-      message: "Team updated",
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send({
-      message: "Internal Server Error",
-    });
-  }
-};
-
-exports.update = async (req, res, next) => {
   try {
     const { id } = req.params;
     const { newMembers } = req.body;
@@ -64,11 +36,7 @@ exports.update = async (req, res, next) => {
       return next(createError(400, "Bad Request"));
     }
 
-    const team = await Team.findByIdAndUpdate(
-      id,
-      { $set: { members: newMembers } },
-      { new: true }
-    );
+    const team = await Team.findByIdAndUpdate(id, (members = newMembers));
 
     if (!team) {
       return res.status(404).send({
@@ -76,8 +44,8 @@ exports.update = async (req, res, next) => {
       });
     }
 
-    console.log('Team members updated successfully');
-    
+    console.log("Team members updated successfully");
+
     res.send({
       message: "Team updated",
       updatedTeam: team,
@@ -97,7 +65,6 @@ exports.remove = async (req, res, next) => {
 
     const removeTeam = await Team.findByIdAndDelete(id);
 
-    // Check if the user was found and deleted
     if (!removeTeam) {
       return res.status(404).send({
         message: "Team not found",

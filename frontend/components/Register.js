@@ -58,7 +58,7 @@ const Register = (props) => {
       props.client.register(email, password, role, teamName);
 
       const members = e.target.email.value;
-      props.client.updateTeam(existingTeam._id, members); // Pass the team ID
+      props.client.updateTeam(existingTeam._id, members); //team ID
     } else {
       const manager = e.target.email.value;
 
