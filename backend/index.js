@@ -53,8 +53,8 @@ app.post("/auth", async (req, res) => {
   res.send({ token: user.token });
 });
 
+//User Section
 app.use("/user", userRoutes);
-
 app.get("/users", async (_, res, next) => {
   try {
     const data = await User.find();
@@ -64,8 +64,8 @@ app.get("/users", async (_, res, next) => {
   }
 });
 
+//Team Section
 app.use("/team", teamRoutes);
-
 app.get("/teams", async (_, res, next) => {
   try {
     const data = await Team.find();
@@ -74,7 +74,6 @@ app.get("/teams", async (_, res, next) => {
     return next(createError(500, "Internal Server Error"));
   }
 });
-
 app.get('/teams/:id', async (req, res, next) => {
   const teamId = req.params.id;
 
@@ -91,9 +90,28 @@ app.get('/teams/:id', async (req, res, next) => {
   }
 });
 
+//Sick Section
 app.use("/sick", sickRoutes);
+app.get("/sicks", async (_, res, next) => {
+  try {
+    const data = await Sick.find();
+    res.send(data);
+  } catch (err) {
+    return next(createError(500, "Internal Server Error"));
+  }
+});
 
+//Holiday Section
 app.use("/holiday", holidayRoutes);
+app.get("/holidays", async (_, res, next) => {
+  try {
+    const data = await Holiday.find();
+    res.send(data);
+  } catch (err) {
+    return next(createError(500, "Internal Server Error"));
+  }
+});
+
 
 app.get("/", async (_, res, next) => {
   try {

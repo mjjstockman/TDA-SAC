@@ -40,9 +40,9 @@ export class ApiClient {
   getSicks() {
     return this.authenticatedCall("get", `${url}sicks`);
   }
-
-  existingTeams(id) {
-    return this.authenticatedCall("get", `${url}teams/${id}`);
+  
+  getHolidays() {
+    return this.authenticatedCall("get", `${url}holidays`);
   }
 
   //   removeAd(id) {

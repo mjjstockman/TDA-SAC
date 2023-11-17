@@ -60,12 +60,16 @@ const GetTeams = (props) => {
                     >
                       {team.members.length + 1}
                     </button>
-                    <dialog id={`my_modal_${team._id}`}
+                    <dialog
+                      id={`my_modal_${team._id}`}
                       className="modal"
-                      open={modalOpen === team._id}>
+                      open={modalOpen === team._id}
+                    >
                       <div className="modal-box">
                         <h3 className="font-bold text-lg">{team.name}</h3>
-                        <p className="py-4 font-bold text-gray-600">{team.manager}</p>
+                        <p className="py-4 font-bold text-gray-600">
+                          {team.manager}
+                        </p>
                         {team.members?.map((member) => {
                           return (
                             <ul id="members" className="py-2">
@@ -75,7 +79,9 @@ const GetTeams = (props) => {
                         })}
                       </div>
                       <form method="dialog" className="modal-backdrop">
-                        <button onClick={() => setModalOpen(null)}>close</button>
+                        <button onClick={() => setModalOpen(null)}>
+                          close
+                        </button>
                       </form>
                     </dialog>
                   </td>

@@ -1,4 +1,3 @@
-const { Sick } = require("../models/sick");
 const createError = require("http-errors");
 const dayjs = require("dayjs");
 const { Holiday } = require("../models/holiday");

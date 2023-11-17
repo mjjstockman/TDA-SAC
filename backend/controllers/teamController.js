@@ -1,5 +1,6 @@
 const { Team } = require("../models/team");
 const dayjs = require("dayjs")
+const createError = require("http-errors");
 
 exports.register = async (req, res, next) => {
   const { name, manager } = req.body;
@@ -51,6 +52,39 @@ exports.update = async (req, res, next) => {
     res.status(500).send({
       message: "Internal Server Error",
     });
+  }
+};
+
+exports.update = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { newMembers } = req.body;
+
+    if (!id || !newMembers) {
+      return next(createError(400, "Bad Request"));
+    }
+
+    const team = await Team.findByIdAndUpdate(
+      id,
+      { $set: { members: newMembers } },
+      { new: true }
+    );
+
+    if (!team) {
+      return res.status(404).send({
+        message: "Team not found",
+      });
+    }
+
+    console.log('Team members updated successfully');
+    
+    res.send({
+      message: "Team updated",
+      updatedTeam: team,
+    });
+  } catch (err) {
+    console.error(err);
+    return next(createError(500, "Internal Server Error"));
   }
 };
 
