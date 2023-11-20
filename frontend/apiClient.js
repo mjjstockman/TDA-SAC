@@ -20,12 +20,12 @@ export class ApiClient {
     });
   }
 
-  async login(username, password) {
-    console.log(username, password);
+  async login(email, password) {
+    console.log(email, password);
     return await axios({
       method: "post",
       url: `${url}auth`,
-      data: { username, password },
+      data: { email, password },
     });
   }
 
@@ -35,6 +35,14 @@ export class ApiClient {
 
   getTeams() {
     return this.authenticatedCall("get", `${url}teams`);
+  }
+
+  getSicks() {
+    return this.authenticatedCall("get", `${url}sicks`);
+  }
+  
+  getHolidays() {
+    return this.authenticatedCall("get", `${url}holidays`);
   }
 
   //   removeAd(id) {
@@ -53,30 +61,66 @@ export class ApiClient {
     });
   }
 
-  //Automatically create teams from users
-  createTeam(name, manager, date, active) {
-    return this.authenticatedCall("post", `${url}team/create`, {
+  //For user to add sick leave to database
+  addSickLeave(title, userid, email, colour, note) {
+    return this.authenticatedCall("post", `${url}sick/register`, {
+      title,
+      userid,
+      email,
+      colour,
+      note,
+    });
+  }
+
+  //For user to add anunal leave to database
+  addAnnualLeave(title, userid, email, startDate, endDate, colour, note) {
+    return this.authenticatedCall("post", `${url}holiday/register`, {
+      title,
+      userid,
+      email,
+      startDate,
+      endDate,
+      colour,
+      note,
+    });
+  }
+
+  //For admin to add teams to database
+  registerTeam(name, manager, members, date, active) {
+    return this.authenticatedCall("post", `${url}team/register`, {
       name,
       manager,
+      members,
       date,
       active,
     });
   }
-  //Automatically update teams from users
-  updateTeam(manager, members, active) {
-    return this.authenticatedCall("post", `${url}team/update`, {
+
+  updateTeam(id, name, manager, members, date, active) {
+    return this.authenticatedCall("put", `${url}team/update/${id}`, {
+      name,
       manager,
       members,
+      date,
       active,
     });
   }
 
-  removeUser(_id) {
-    return this.authenticatedCall("delete", `${url}${_id}`);
+  removeTeam(id) {
+    return this.authenticatedCall("delete", `${url}team/delete/${id}`);
+  }
+
+  removeUser(id) {
+    return this.authenticatedCall("delete", `${url}user/delete/${id}`);
+  }
+
+  changeUserStatus(id, active) {
+    return this.authenticatedCall("put", `${url}user/status/${id}`, {
+      active,
+    });
   }
 
   // for User to update own info
-
   updateUser(_id, name, username, forename, surname, icon) {
     return this.authenticatedCall("put", `${url}${_id}`, {
       name,

@@ -5,8 +5,9 @@ import Navigation from "@/components/Navigation";
 import Table from "@/components/Table";
 import React, { useState } from "react";
 import { ApiClient } from "@/apiClient";
+import ManagerRequests from "@/components/ManagerRequests";
 
-const Dashboard = () => {
+const ManagerDash = () => {
 
   const [token, changeToken] = useState(window.localStorage.getItem("token"));
   const client = new ApiClient(
@@ -29,11 +30,10 @@ const Dashboard = () => {
         <Navigation client={client}/>
       </div>
       <div className="text-2xl flex justify-between">
-        Your Bookings
-        <DaysRemaining />
+
       </div>
       <div className="px-20 py-10">
-        <Table />
+        <ManagerRequests client={client}/>
       </div>
       <div className="text-2xl">
         Upcoming . . .
@@ -45,4 +45,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default ManagerDash;
