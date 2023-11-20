@@ -1,25 +1,13 @@
-import CalendarUI from "@/components/Calendar";
-import DaysRemaining from "@/components/DaysRemaining";
-import Table from "@/components/Table";
+import Dashboard from '@/pages/Dashboard'
 
-const Dashboard = () => {
+const page = () => {
   return (
     <div>
-      <div className="text-2xl flex justify-between">
-        Your Bookings
-        <DaysRemaining />
-      </div>
-      <div className="px-20 py-10">
-        <Table />
-      </div>
-      <div className="text-2xl">
-        Upcoming . . .
-        <div>
-          <CalendarUI />
-        </div>
+      <div className='flex bg-white min-h-screen flex-col items-center justify-between p-24'>
+          <Dashboard />
       </div>
     </div>
   );
 };
 
-export default Dashboard;
+export default page;
