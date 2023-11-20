@@ -1,6 +1,6 @@
 "use client";
 import Register from "@/components/Register";
-import { React, useState } from "react";
+import React, { useState } from "react";
 import { ApiClient } from "@/apiClient";
 import GetTeams from "@/components/GetTeams";
 import GetUsers from "@/components/GetUsers";
@@ -22,14 +22,12 @@ const Admin = () => {
     changeToken(undefined);
   };
 
-  const refreshList = () => {
-
-  };
-
   return (
     <main className="flex min-h-screen flex-col items-center gap-10 p-20">
       Admin Page
-      <Register client={client} />
+      <div>
+        <Register client={client} />
+      </div>
         <div>
           <GetTeams client={client} />
         </div>

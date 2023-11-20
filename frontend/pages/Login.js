@@ -45,7 +45,10 @@ const Login = (props) => {
           className="input input-bordered w-full max-w-xs"
           disabled={disabled}
         />
-        <button className="btn btn-outline btn-primary" disabled={disabled}>
+        <button
+          className="btn btn-outline btn-primary bg-TDAOrange"
+          disabled={disabled}
+        >
           Login
         </button>
       </form>

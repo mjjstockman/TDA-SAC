@@ -10,8 +10,12 @@ const GetUsers = (props) => {
     });
   };
 
-  const removeUser = (_id) => {
-    props.client.removeUser(_id).then(() => refreshList());
+  const removeUser = (id) => {
+    props.client.removeUser(id).then(() => refreshList());
+  };
+
+  const changeUserStatus = (id) => {
+    props.client.changeUserStatus(id).then(() => refreshList());
   };
 
 
@@ -39,7 +43,7 @@ const GetUsers = (props) => {
             {/* row 1 */}
             {users?.map((user) => {
               return (
-                <tr>
+                <tr key={user._id}>
                   <td>
                     <div className="flex items-center space-x-3">
                       <div>
@@ -55,15 +59,8 @@ const GetUsers = (props) => {
                       type="checkbox"
                       className="scale-75 toggle checked:bg-green-500"
                       defaultChecked={user.active ? true : false}
+                      onClick={() => changeUserStatus(user.active)}
                     />
-                  </th>
-                  <th>
-                    <button
-                      className="btn btn-ghost btn-xs"
-                      onClick={() => updateUser(user._id)}
-                    >
-                      Edit
-                    </button>
                   </th>
                   <th>
                     <button

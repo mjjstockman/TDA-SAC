@@ -1,4 +1,4 @@
-const express = require("express");
+const express = require('express');
 const app = express();
 const mongoose = require("mongoose");
 const morgan = require("morgan");
@@ -9,8 +9,11 @@ const createError = require("http-errors");
 const { User } = require("./models/user");
 const { Team } = require("./models/team");
 const { v4: uuidv4 } = require("uuid");
+const cookieParser = require("cookie-parser");
 const userRoutes = require("./routes/userRoutes");
 const teamRoutes = require("./routes/teamRoutes");
+const sickRoutes = require("./routes/sickRoutes");
+const holidayRoutes = require("./routes/holidayRoutes");
 
 const port = 3001;
 
@@ -32,6 +35,7 @@ app.use(
   })
 );
 
+app.use(cookieParser());
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(helmet());
@@ -49,26 +53,6 @@ app.post("/auth", async (req, res) => {
   user.token = uuidv4();
   await user.save();
   res.send({ token: user.token });
-});
-
-app.use("/user", userRoutes);
-app.get("/users", async (_, res, next) => {
-  try {
-    const data = await User.find();
-    res.send(data);
-  } catch (err) {
-    return next(createError(500, "Internal Server Error"));
-  }
-});
-
-app.use("/team", teamRoutes);
-app.get("/teams", async (_, res, next) => {
-  try {
-    const data = await Team.find();
-    res.send(data);
-  } catch (err) {
-    return next(createError(500, "Internal Server Error"));
-  }
 });
 
 app.get("/", async (_, res, next) => {
@@ -92,6 +76,65 @@ app.get("/", async (_, res, next) => {
       `;
 
     res.send(html);
+  } catch (err) {
+    return next(createError(500, "Internal Server Error"));
+  }
+});
+
+//User Section
+app.use("/user", userRoutes);
+app.get("/users", async (_, res, next) => {
+  try {
+    const data = await User.find();
+    res.send(data);
+  } catch (err) {
+    return next(createError(500, "Internal Server Error"));
+  }
+});
+
+//Team Section
+app.use("/team", teamRoutes);
+app.get("/teams", async (_, res, next) => {
+  try {
+    const data = await Team.find();
+    res.send(data);
+  } catch (err) {
+    return next(createError(500, "Internal Server Error"));
+  }
+});
+app.get("/teams/:id", async (req, res, next) => {
+  const teamId = req.params.id;
+
+  try {
+    const team = await Team.findById(teamId);
+
+    if (!team) {
+      return next(createError(404, "Team not found"));
+    }
+
+    res.send(team);
+  } catch (err) {
+    return next(createError(500, "Internal Server Error"));
+  }
+});
+
+//Sick Section
+app.use("/sick", sickRoutes);
+app.get("/sicks", async (_, res, next) => {
+  try {
+    const data = await Sick.find();
+    res.send(data);
+  } catch (err) {
+    return next(createError(500, "Internal Server Error"));
+  }
+});
+
+//Holiday Section
+app.use("/holiday", holidayRoutes);
+app.get("/holidays", async (_, res, next) => {
+  try {
+    const data = await Holiday.find();
+    res.send(data);
   } catch (err) {
     return next(createError(500, "Internal Server Error"));
   }

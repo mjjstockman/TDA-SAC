@@ -1,15 +1,15 @@
 const { Team } = require("../models/team");
-const { User } = require("../models/user"); // Import the User model
+const dayjs = require("dayjs");
+const createError = require("http-errors");
 
-exports.createTeam = async (req, res, next) => {
-  const { name } = req.body;
-  const today = new Date();
-  const managerUser = await User.findOne({ role: User.email });
+exports.register = async (req, res, next) => {
+  const { name, manager } = req.body;
+  const today = dayjs().format("DD/MM/YYYY | HH:mm:ss");
 
   try {
     const team = new Team({
       name,
-      manager: managerUser,
+      manager,
       date: today,
       active: true,
     });
@@ -27,42 +27,55 @@ exports.createTeam = async (req, res, next) => {
   }
 };
 
-exports.updateTeam = async (req, res, next) => {
-  const usersArr = [];
-  const teamMembersArr = [];
-  const teamName = User.team.value;
-
+exports.update = async (req, res, next) => {
   try {
-    const users = await User.find({ teamName });
+    const { id } = req.params;
+    const { newMembers } = req.body;
 
-    for (let i = 0; i < users.length; i++) {
-      const currentUser = users[i];
-
-      usersArr.push(currentUser);
-
-      if (currentUser.teamName === teamName) {
-        teamMembersArr.push(currentUser);
-      }
+    if (!id || !newMembers) {
+      return next(createError(400, "Bad Request"));
     }
 
-    try {
-        const team = Team({
-            members : teamMembersArr,
-        });
-    
-        await team.save();
-    
-        res.status(201).send({
-          message: "Team updated",
-        });
-      } catch (error) {
-        console.error(error);
-        res.status(500).send({
-          message: "Internal Server Error",
-        });
-      }
+    const team = await Team.findByIdAndUpdate(id, (members = newMembers));
 
+    if (!team) {
+      return res.status(404).send({
+        message: "Team not found",
+      });
+    }
+
+    console.log("Team members updated successfully");
+
+    res.send({
+      message: "Team updated",
+      updatedTeam: team,
+    });
   } catch (err) {
-    console.log(err);
+    console.error(err);
+    return next(createError(500, "Internal Server Error"));
+  }
+};
+
+exports.remove = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    if (!id) {
+      return next(createError(400, "Bad Request"));
+    }
+
+    const removeTeam = await Team.findByIdAndDelete(id);
+
+    if (!removeTeam) {
+      return res.status(404).send({
+        message: "Team not found",
+      });
+    }
+
+    res.send({
+      message: "Team deleted",
+    });
+  } catch (err) {
+    console.error(err);
+    return next(createError(500, "Internal Server Error"));
   }
 };

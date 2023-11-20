@@ -4,7 +4,7 @@ module.exports = {
     colors: {
       transparent: "transparent",
       current: "currentColor",
-      TDAOrange: "#ff5800",
+      TDAOrange: "#FF5800",
     },
   },
 };
