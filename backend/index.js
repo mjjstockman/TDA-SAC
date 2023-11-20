@@ -43,7 +43,7 @@ app.use(helmet());
 app.post("/auth", async (req, res) => {
   console.log("arrived");
   console.log(req.body);
-  const user = await User.findOne({ email: req.body.username });
+  const user = await User.findOne({ email: req.body.email });
   if (!user) {
     return res.sendStatus(401);
   }

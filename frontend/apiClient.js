@@ -20,12 +20,12 @@ export class ApiClient {
     });
   }
 
-  async login(username, password) {
-    console.log(username, password);
+  async login(email, password) {
+    console.log(email, password);
     return await axios({
       method: "post",
       url: `${url}auth`,
-      data: { username, password },
+      data: { email, password },
     });
   }
 
@@ -108,10 +108,6 @@ export class ApiClient {
 
   removeTeam(id) {
     return this.authenticatedCall("delete", `${url}team/delete/${id}`);
-  }
-
-  async login(username, password) {
-    console.log(username, password);
   }
 
   removeUser(id) {
