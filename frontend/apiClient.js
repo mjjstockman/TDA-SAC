@@ -20,12 +20,12 @@ export class ApiClient {
     });
   }
 
-  async login(username, password) {
-    console.log(username, password);
+  async login(email, password) {
+    console.log(email, password);
     return await axios({
       method: "post",
       url: `${url}auth`,
-      data: { username, password },
+      data: { email, password },
     });
   }
 
@@ -110,10 +110,6 @@ export class ApiClient {
     return this.authenticatedCall("delete", `${url}team/delete/${id}`);
   }
 
-  async login(username, password) {
-    console.log(username, password);
-  }
-
   removeUser(id) {
     return this.authenticatedCall("delete", `${url}user/delete/${id}`);
   }
@@ -125,8 +121,8 @@ export class ApiClient {
   }
 
   // for User to update own info
-  updateUser(id, name, username, forename, surname, icon) {
-    return this.authenticatedCall("put", `${url}user/update/${id}`, {
+  updateUser(_id, name, username, forename, surname, icon) {
+    return this.authenticatedCall("put", `${url}${_id}`, {
       name,
       username,
       forename,

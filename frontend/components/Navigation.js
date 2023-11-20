@@ -38,8 +38,8 @@ const Navigation = (props) => {
     e.preventDefault();
 
     const title = e.target.reason.value;
-    const userid = "6554d0c1e8e867d732f10eeb";
-    const email = "userOne";
+    const userid = "65577201118acb5771ce13cf";
+    const email = "user4@test.com";
     const note = e.target.doctorNote.value;
     const colour = "#FFA500";
 
@@ -52,8 +52,8 @@ const Navigation = (props) => {
     e.preventDefault();
 
     const title = e.target.title.value;
-    const userid = "6554d0c1e8e867d732f10eeb";
-    const email = "userOne";
+    const userid = "65577201118acb5771ce13cf";
+    const email = "user4@test.com";
     const startDate = startingDate;
     const endDate = endingDate;
     const note = e.target.holidayNote.value;
@@ -75,8 +75,8 @@ const Navigation = (props) => {
   return (
     <div>
       <div className="gap-8">
-        <button className="btn btn-ghost btn-md">Tab 1</button>
-        <button className="btn btn-ghost btn-md">Tab 2</button>
+        <button className="btn btn-ghost btn-md">Profile</button>
+        <button className="btn btn-ghost btn-md">Notifications</button>
         <div className="dropdown dropdown-hover dropdown-end">
           <label tabIndex={0} className="btn btn-ghost btn-md ">
             Add
