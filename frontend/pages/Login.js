@@ -16,7 +16,7 @@ const Login = (props) => {
         setDisabled(false);
         props.loggedIn(response.data.token);
         if (response?.status === 200) {
-          router.push("/dashtest/");
+          router.push("/dashboard/");
         }
       })
       .catch((error) => {
@@ -54,3 +54,4 @@ const Login = (props) => {
 };
 
 export default Login;
+// Mand
