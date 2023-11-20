@@ -8,6 +8,8 @@ require("dotenv").config();
 const createError = require("http-errors");
 const { User } = require("./models/user");
 const { Team } = require("./models/team");
+const { Holiday } = require("./models/holiday");
+const { Sick } = require("./models/sick");
 const { v4: uuidv4 } = require("uuid");
 const cookieParser = require("cookie-parser");
 const userRoutes = require("./routes/userRoutes");

@@ -5,6 +5,7 @@ import Navigation from "@/components/Navigation";
 import Table from "@/components/Table";
 import React, { useState } from "react";
 import { ApiClient } from "@/apiClient";
+import ManagerRequests from "@/components/ManagerRequests";
 
 const ManagerDash = () => {
 
@@ -29,11 +30,10 @@ const ManagerDash = () => {
         <Navigation client={client}/>
       </div>
       <div className="text-2xl flex justify-between">
-        Your Bookings
-        <DaysRemaining />
+
       </div>
       <div className="px-20 py-10">
-        <Table />
+        <ManagerRequests client={client}/>
       </div>
       <div className="text-2xl">
         Upcoming . . .

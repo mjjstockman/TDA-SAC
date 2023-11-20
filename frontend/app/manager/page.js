@@ -22,7 +22,7 @@ const logout = () => {
   return (
     <main className="flex min-h-screen flex-col items-center gap-10 p-20">
       <div>
-        <ManagerDash />
+        <ManagerDash/>
       </div>
 
       <div>
