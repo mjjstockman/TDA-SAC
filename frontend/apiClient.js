@@ -15,37 +15,123 @@ export class ApiClient {
         authorization: this.tokenProvider(),
       },
       data,
-    }).catch((error) => {
-      if (error.response.status === 403) {
-        this.logoutHandler();
-        return Promise.reject();
-      } else {
-        throw error;
-      }
+    }).catch((err) => {
+      console.log(err);
     });
   }
 
-  //   getAds() {
-  //     return this.authenticatedCall("get", url);
-  //   }
+  async login(username, password) {
+    console.log(username, password);
+    return await axios({
+      method: "post",
+      url: `${url}auth`,
+      data: { username, password },
+    });
+  }
 
-  //   addAd(name, price) {
-  //     return this.authenticatedCall("post", url, { name, price });
-  //   }
+  getUsers() {
+    return this.authenticatedCall("get", `${url}users`);
+  }
+
+  getTeams() {
+    return this.authenticatedCall("get", `${url}teams`);
+  }
+
+  getSicks() {
+    return this.authenticatedCall("get", `${url}sicks`);
+  }
+  
+  getHolidays() {
+    return this.authenticatedCall("get", `${url}holidays`);
+  }
 
   //   removeAd(id) {
   //     return this.authenticatedCall("delete", `${url}${id}`);
   //   }
 
-  //   updateAd(id, name, price) {
-  //     return this.authenticatedCall("put", `${url}${id}`, { name, price });
-  //   }
+  //For admin to add users to database
+  register(email, password, role, team, date, active) {
+    return this.authenticatedCall("post", `${url}user/register`, {
+      email,
+      password,
+      role,
+      team,
+      date,
+      active,
+    });
+  }
+
+  //For user to add sick leave to database
+  addSickLeave(title, userid, email, colour, note) {
+    return this.authenticatedCall("post", `${url}sick/register`, {
+      title,
+      userid,
+      email,
+      colour,
+      note,
+    });
+  }
+
+  //For user to add anunal leave to database
+  addAnnualLeave(title, userid, email, startDate, endDate, colour, note) {
+    return this.authenticatedCall("post", `${url}holiday/register`, {
+      title,
+      userid,
+      email,
+      startDate,
+      endDate,
+      colour,
+      note,
+    });
+  }
+
+  //For admin to add teams to database
+  registerTeam(name, manager, members, date, active) {
+    return this.authenticatedCall("post", `${url}team/register`, {
+      name,
+      manager,
+      members,
+      date,
+      active,
+    });
+  }
+
+  updateTeam(id, name, manager, members, date, active) {
+    return this.authenticatedCall("put", `${url}team/update/${id}`, {
+      name,
+      manager,
+      members,
+      date,
+      active,
+    });
+  }
+
+  removeTeam(id) {
+    return this.authenticatedCall("delete", `${url}team/delete/${id}`);
+  }
 
   async login(username, password) {
-    return await axios({
-      method: "post",
-      url: `${url}auth`,
-      data: { username, password },
+    console.log(username, password);
+  }
+
+  removeUser(id) {
+    return this.authenticatedCall("delete", `${url}user/delete/${id}`);
+  }
+
+  changeUserStatus(id, active) {
+    return this.authenticatedCall("put", `${url}user/status/${id}`, {
+      active,
+    });
+  }
+
+  // for User to update own info
+  updateUser(id, name, username, forename, surname, icon) {
+    return this.authenticatedCall("put", `${url}user/update/${id}`, {
+      name,
+      username,
+      forename,
+      surname,
+      icon,
     });
   }
 }
