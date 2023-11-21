@@ -103,12 +103,9 @@ export class ApiClient {
     });
   }
 
-  updateTeam(id, name, manager, members, date, active) {
+  updateTeam(id, newMembers, active) {
     return this.authenticatedCall("put", `${url}team/update/${id}`, {
-      name,
-      manager,
-      members,
-      date,
+      newMembers,
       active,
     });
   }
