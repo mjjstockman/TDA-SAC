@@ -129,3 +129,22 @@ exports.notifications = async (req, res, next) => {
     });
   }
 };
+
+exports.getUserByToken = async (req, res, next) => {
+  const { token } = req.params;
+
+  try {
+    const data = await User.findByToken(token);
+
+    if (!data) {
+      return next(createError(404, "User not found"));
+    }
+
+    res.send(data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({
+      message: "Internal Server Error",
+    });
+  }
+};

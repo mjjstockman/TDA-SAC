@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const userSchema = mongoose.Schema({
+  token: String,
   email: {
     type: String,
     unique: true,
@@ -14,13 +15,16 @@ const userSchema = mongoose.Schema({
   role: String,
   team: String,
   date: String,
-  notifications : Array,
+  notifications: Array,
   active: Boolean,
 });
 
-
 userSchema.statics.findByEmail = function (email) {
   return this.findOne({ email });
+};
+
+userSchema.statics.findByToken = function (token) {
+  return this.findOne({ token });
 };
 
 module.exports.User = mongoose.model("User", userSchema);

@@ -36,6 +36,10 @@ export class ApiClient {
     return this.authenticatedCall("get", `${url}users`);
   }
 
+  getUserByToken(token) {
+    return this.authenticatedCall("get", `${url}user/${token}`);
+  }
+
   getTeams() {
     return this.authenticatedCall("get", `${url}teams`);
   }

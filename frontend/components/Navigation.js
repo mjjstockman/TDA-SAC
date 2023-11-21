@@ -1,11 +1,24 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaXmark } from "react-icons/fa6";
 
 const Navigation = (props) => {
+  const token = window.localStorage.getItem("token")
+  const [currentUser, setCurrentUser] = useState("") 
   const [modalOneOpen, setModalOneOpen] = useState(false);
   const [startingDate, setStartDate] = useState("");
   const [endingDate, setEndDate] = useState("");
+
+  const refreshList = () => {
+    props.client.getUserByToken(token).then((response) => {
+      setCurrentUser(response.data);
+      console.log(currentUser)
+    });
+  };
+
+  useEffect(() => {
+    refreshList();
+  }, []);
 
   const openModalOne = () => {
     setModalOneOpen(true);
@@ -38,8 +51,8 @@ const Navigation = (props) => {
     e.preventDefault();
 
     const title = e.target.reason.value;
-    const userid = "65577201118acb5771ce13cf";
-    const email = "user4@test.com";
+    const userid = currentUser._id;
+    const email = currentUser.email;
     const note = e.target.doctorNote.value;
     const colour = "#FFA500";
 
@@ -52,8 +65,8 @@ const Navigation = (props) => {
     e.preventDefault();
 
     const title = e.target.title.value;
-    const userid = "65577201118acb5771ce13cf";
-    const email = "user4@test.com";
+    const userid = currentUser._id;
+    const email = currentUser.email;
     const startDate = startingDate;
     const endDate = endingDate;
     const note = e.target.holidayNote.value;
