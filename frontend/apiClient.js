@@ -124,13 +124,18 @@ export class ApiClient {
   }
 
   // for User to update own info
-  updateUser(id, name, username, forename, surname, icon) {
+  updateUser(id, forename, surname, password, icon) {
+    const num = Math.random(Math.floor() * 10) + 1;
+    const letter = surname.charAt(0);
+    const today = dayjs().format("DD/MM/YYYY | HH:mm:ss");
+
     return this.authenticatedCall("put", `${url}user/update/${id}`, {
-      name,
-      username,
       forename,
       surname,
+      password,
+      username: forename + letter + num,
       icon,
+      lastPasswordChanged: today,
     });
   }
 
@@ -142,7 +147,7 @@ export class ApiClient {
 
   notification(email, message) {
     const today = dayjs().format("DD/MM/YYYY | HH:mm:ss");
-    
+
     return this.authenticatedCall("put", `${url}user/notifications/${email}`, {
       notification: {
         message,

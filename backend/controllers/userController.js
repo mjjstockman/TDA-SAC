@@ -4,7 +4,6 @@ const createError = require("http-errors");
 const saltRounds = 10;
 const dayjs = require("dayjs");
 
-
 exports.register = async (req, res, next) => {
   const { email, password, role, team } = req.body;
 
@@ -30,8 +29,8 @@ exports.register = async (req, res, next) => {
 };
 
 exports.status = async (req, res, next) => {
+  const { id } = req.params;
   try {
-    const id = req.params.id;
     const user = await User.findById(id);
 
     if (!user) {
@@ -39,7 +38,11 @@ exports.status = async (req, res, next) => {
     }
 
     // Toggle the 'active' field
-    user.active = !user.active;
+    if ((user.active = false)) {
+      user.active = true;
+    } else {
+      user.active = false;
+    }
 
     const updatedUser = await user.save();
 
@@ -53,8 +56,11 @@ exports.status = async (req, res, next) => {
 };
 
 exports.update = async (req, res, next) => {
-  const { password, forename, surename } = req.body;
+  const { forename, surname, password, username, icon, lastPasswordChanged } =
+    req.body;
   const { id } = req.params;
+
+  const encryptedPass = await bcrypt.hash(password, saltRounds);
 
   try {
     const user = await User.findById(id);
@@ -63,11 +69,12 @@ exports.update = async (req, res, next) => {
       return next(createError(404, "User not found"));
     }
 
-    user.password = password;
+    user.password = encryptedPass;
     user.forename = forename;
-    user.surename = surename;
-    user.username = forename + " " + surename;
+    user.surname = surname;
+    user.username = username;
     user.icon = icon;
+    user.lastPasswordChanged = lastPasswordChanged;
 
     await user.save();
 
