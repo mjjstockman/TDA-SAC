@@ -40,7 +40,7 @@ export class ApiClient {
   getSicks() {
     return this.authenticatedCall("get", `${url}sicks`);
   }
-  
+
   getHolidays() {
     return this.authenticatedCall("get", `${url}holidays`);
   }
@@ -121,8 +121,8 @@ export class ApiClient {
   }
 
   // for User to update own info
-  updateUser(_id, name, username, forename, surname, icon) {
-    return this.authenticatedCall("put", `${url}${_id}`, {
+  updateUser(id, name, username, forename, surname, icon) {
+    return this.authenticatedCall("put", `${url}user/update/${id}`, {
       name,
       username,
       forename,
@@ -130,4 +130,17 @@ export class ApiClient {
       icon,
     });
   }
+
+  approveRequest(id, approved) {
+    return this.authenticatedCall("put", `${url}holiday/update/${id}`, {
+      approved,
+    });
+  }
+  // "post", `${url}user/notifications/${id}` &&
+
+  denyRequest(id) {
+    return this.authenticatedCall("delete", `${url}holiday/delete/${id}`);
+  }
+
+  
 }
