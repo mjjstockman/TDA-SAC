@@ -1,6 +1,5 @@
 import axios from "axios";
 const dayjs = require("dayjs");
-const today = dayjs().format("DD/MM/YYYY | HH:mm:ss");
 
 const url = "http://localhost:3001/";
 
@@ -142,6 +141,8 @@ export class ApiClient {
   }
 
   notification(email, message) {
+    const today = dayjs().format("DD/MM/YYYY | HH:mm:ss");
+    
     return this.authenticatedCall("put", `${url}user/notifications/${email}`, {
       notification: {
         message,

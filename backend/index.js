@@ -84,31 +84,6 @@ app.post('/auth', async (req, res) => {
   }
 });
 
-// app.post("/auth", async (req, res) => {
-//   console.log("arrived");
-//   console.log(req.body);
-//   try {
-//   const user = await User.findOne({ email: req.body.email });
-//   if (!user) {
-//     return res.sendStatus(401);
-//   }
-
-//   bcrypt.compare(req.body.password, user.password).then(function (result) {
-//     // result == true
-//     if (result !== true) {
-//       return res.sendStatus(403);
-//     }
-//     user.token = uuidv4();
-//     await user.save();
-//   });
-  
-//   res.send({ token: user.token });
-// } catch (error) {
-//       console.error(error);
-//       res.sendStatus(500);
-//     }
-//   });
-
 app.get("/", async (_, res, next) => {
   try {
     const users = await User.find();

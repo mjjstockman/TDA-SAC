@@ -3,12 +3,14 @@ const { User } = require("../models/user");
 const createError = require("http-errors");
 const saltRounds = 10;
 const dayjs = require("dayjs");
-const today = dayjs().format("DD/MM/YYYY | HH:mm:ss");
+
 
 exports.register = async (req, res, next) => {
   const { email, password, role, team } = req.body;
 
   const encryptedPass = await bcrypt.hash(password, saltRounds);
+
+  const today = dayjs().format("DD/MM/YYYY | HH:mm:ss");
 
   const user = new User({
     email,
