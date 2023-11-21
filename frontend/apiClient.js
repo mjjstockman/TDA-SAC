@@ -1,4 +1,7 @@
 import axios from "axios";
+const dayjs = require("dayjs");
+const today = dayjs().format("DD/MM/YYYY | HH:mm:ss");
+
 const url = "http://localhost:3001/";
 
 export class ApiClient {
@@ -136,11 +139,18 @@ export class ApiClient {
       approved,
     });
   }
-  // "post", `${url}user/notifications/${id}` &&
+
+  approvalNotification(email, message) {
+    return this.authenticatedCall("put", `${url}user/notifications/${email}`, {
+      notification: {
+        message,
+        date: today,
+        seen: false,
+      },
+    });
+  }
 
   denyRequest(id) {
     return this.authenticatedCall("delete", `${url}holiday/delete/${id}`);
   }
-
-  
 }

@@ -14,7 +14,13 @@ const userSchema = mongoose.Schema({
   role: String,
   team: String,
   date: String,
+  notifications : Array,
   active: Boolean,
 });
+
+
+userSchema.statics.findByEmail = function (email) {
+  return this.findOne({ email });
+};
 
 module.exports.User = mongoose.model("User", userSchema);

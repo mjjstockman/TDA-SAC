@@ -13,14 +13,20 @@ const ManagerRequests = (props) => {
 
   const approveRequest = (id) => {
     props.client.approveRequest(id).then(() => refreshList());
-    // props.client.sendNotification(email) 
-    // Sends notification to user of approval
+  };
+
+  const approvalNotification = (email,  startDate) => {
+    const message = `Holiday from ${startDate} Approved`;
+    props.client.approvalNotification(email, message);
   };
 
   const denyRequest = (id) => {
     props.client.denyRequest(id).then(() => refreshList());
-    // props.client.sendNotification(email)
-    // Sends notification to user of denial
+  };
+
+  const denialNotification = (email, startDate) => {
+    const message = `Holiday from ${startDate} Denied`;
+    props.client.denialNotification(email, message);
   };
 
   useEffect(() => {
@@ -68,7 +74,13 @@ const ManagerRequests = (props) => {
                 <th>
                   <button
                     className="btn btn-ghost btn-xs"
-                    onClick={() => approveRequest(holiday._id)}
+                    onClick={async () => {
+                      await approveRequest(holiday._id);
+                      await approvalNotification(
+                        holiday.email,
+                        holiday.startDate
+                      );
+                    }}
                   >
                     APPROVE
                   </button>
@@ -76,7 +88,13 @@ const ManagerRequests = (props) => {
                 <th>
                   <button
                     className="btn btn-ghost btn-xs"
-                    onClick={() => denyRequest(holiday._id)}
+                    onClick={async () => {
+                      await denyRequest(holiday._id);
+                      await denialNotification(
+                        holiday.email,
+                        holiday.startDate
+                      );
+                    }}
                   >
                     DENY
                   </button>
