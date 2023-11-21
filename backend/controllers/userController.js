@@ -4,10 +4,12 @@ const createError = require("http-errors");
 const saltRounds = 10;
 const dayjs = require("dayjs");
 
+
 exports.register = async (req, res, next) => {
   const { email, password, role, team } = req.body;
 
   const encryptedPass = await bcrypt.hash(password, saltRounds);
+
   const today = dayjs().format("DD/MM/YYYY | HH:mm:ss");
 
   const user = new User({
@@ -33,7 +35,7 @@ exports.status = async (req, res, next) => {
     const user = await User.findById(id);
 
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: "User not found" });
     }
 
     // Toggle the 'active' field
@@ -41,10 +43,12 @@ exports.status = async (req, res, next) => {
 
     const updatedUser = await user.save();
 
-    return res.status(200).json({ message: 'User status updated successfully', user: updatedUser });
+    return res
+      .status(200)
+      .json({ message: "User status updated successfully", user: updatedUser });
   } catch (error) {
-    console.error('Error:', error);
-    return res.status(500).json({ message: 'Internal Server Error' });
+    console.error("Error:", error);
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -100,5 +104,49 @@ exports.remove = async (req, res, next) => {
   } catch (err) {
     console.error(err);
     return next(createError(500, "Internal Server Error"));
+  }
+};
+
+exports.notifications = async (req, res, next) => {
+  const { notification } = req.body;
+  const { email } = req.params;
+  try {
+    const user = await User.findByEmail(email);
+
+    if (!user) {
+      return next(createError(404, "User not found"));
+    }
+
+    user.notifications.push(notification);
+
+    await user.save();
+
+    res.status(201).send({
+      message: "User notified",
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({
+      message: "Internal Server Error",
+    });
+  }
+};
+
+exports.getUserByToken = async (req, res, next) => {
+  const { token } = req.params;
+
+  try {
+    const data = await User.findByToken(token);
+
+    if (!data) {
+      return next(createError(404, "User not found"));
+    }
+
+    res.send(data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({
+      message: "Internal Server Error",
+    });
   }
 };

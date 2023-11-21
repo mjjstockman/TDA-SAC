@@ -6,15 +6,28 @@ const ManagerRequests = (props) => {
 
   const refreshList = () => {
     props.client.getHolidays().then((response) => {
-      setHolidays(response.data);
+      setHolidays(response.data.filter((holiday) => !holiday.approved));
       console.log(response.data);
     });
   };
 
-  // if holidays approved = true >> IGNORE
-  // if holidays approved = false >> SHOW
-  // when decline holiday >> delete request and send notification to user
-  // when approved holiday >> set approved TRUE and send notification to user
+  const approveRequest = (id) => {
+    props.client.approveRequest(id).then(() => refreshList());
+  };
+
+  const approvalNotification = (email,  startDate) => {
+    const message = `Holiday from ${startDate} Approved`;
+    props.client.notification(email, message);
+  };
+
+  const denyRequest = (id) => {
+    props.client.denyRequest(id).then(() => refreshList());
+  };
+
+  const denialNotification = (email, startDate) => {
+    const message = `Holiday from ${startDate} Denied`;
+    props.client.notification(email, message);
+  };
 
   useEffect(() => {
     refreshList();
@@ -22,7 +35,11 @@ const ManagerRequests = (props) => {
 
   return (
     <div>
-      <h1 className="text-xl py-4"> LEAVE REQUESTS </h1>
+      <div className="text-xl py-4 gap-3 flex">
+        LEAVE REQUESTS <div>:</div>
+        <div className=" font-bold text-xl">{holidays.length}</div>
+      </div>
+
       <div className="overflow-x-auto">
         <table className="table">
           {/* head */}
@@ -42,23 +59,45 @@ const ManagerRequests = (props) => {
               <tr key={holiday._id}>
                 <td>
                   <div>
-                    <div className="font-bold">{holiday.email}</div>
+                    <div className="font-bold text-center">{holiday.email}</div>
                   </div>
                 </td>
                 <td>
                   <div>
-                    <div>{holiday.title}</div>
+                    <div className="overflow-none">{holiday.title}</div>
                   </div>
                 </td>
-                <td>
+                <td className="text-center">
                   {holiday.startDate} | {holiday.endDate}
                 </td>
-                <td>{holiday.totalDays}</td>
+                <td className="text-center">{holiday.totalDays}</td>
                 <th>
-                  <button className="btn btn-ghost btn-xs">APPROVE</button>
+                  <button
+                    className="btn btn-ghost btn-xs"
+                    onClick={async () => {
+                      await approveRequest(holiday._id);
+                      await approvalNotification(
+                        holiday.email,
+                        holiday.startDate
+                      );
+                    }}
+                  >
+                    APPROVE
+                  </button>
                 </th>
                 <th>
-                  <button className="btn btn-ghost btn-xs">DENY</button>
+                  <button
+                    className="btn btn-ghost btn-xs"
+                    onClick={async () => {
+                      await denyRequest(holiday._id);
+                      await denialNotification(
+                        holiday.email,
+                        holiday.startDate
+                      );
+                    }}
+                  >
+                    DENY
+                  </button>
                 </th>
               </tr>
             ))}

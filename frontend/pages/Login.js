@@ -16,7 +16,30 @@ const Login = (props) => {
         setDisabled(false);
         props.loggedIn(response.data.token);
         if (response?.status === 200) {
-          router.push("/dashboard/");
+          const { role } = response.data;
+
+          // "Admin",
+          // "Director",
+          // "Manager",
+          // "Staff",
+          // "Instructor",
+          // "Course Manager",
+          // "Marketing",
+          // "Admissions",
+
+          if (role === "Director") {
+            router.push("/dashboard/")
+          } else if (role === "Admin") {
+            router.push("/admin/")
+          } else if (role === "Manager") {
+            router.push("/manager/")
+          } else if (role === "Course Manager") {
+            router.push("/dashboard/")
+          } else {
+            router.push("/dashboard/")
+          }
+          
+          ;
         }
       })
       .catch((error) => {
