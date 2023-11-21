@@ -17,7 +17,7 @@ const ManagerRequests = (props) => {
 
   const approvalNotification = (email,  startDate) => {
     const message = `Holiday from ${startDate} Approved`;
-    props.client.approvalNotification(email, message);
+    props.client.notification(email, message);
   };
 
   const denyRequest = (id) => {
@@ -26,7 +26,7 @@ const ManagerRequests = (props) => {
 
   const denialNotification = (email, startDate) => {
     const message = `Holiday from ${startDate} Denied`;
-    props.client.denialNotification(email, message);
+    props.client.notification(email, message);
   };
 
   useEffect(() => {

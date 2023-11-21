@@ -140,7 +140,7 @@ export class ApiClient {
     });
   }
 
-  approvalNotification(email, message) {
+  notification(email, message) {
     return this.authenticatedCall("put", `${url}user/notifications/${email}`, {
       notification: {
         message,
