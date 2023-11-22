@@ -3,9 +3,8 @@ import CalendarUI from "@/components/Calendar";
 import Navigation from "@/components/Navigation";
 import React, { useState } from "react";
 import { ApiClient } from "@/apiClient";
-import ManagerRequests from "@/components/ManagerRequests";
 
-const ManagerDash = () => {
+const CourseManagerDash = () => {
 
   const [token, changeToken] = useState(window.localStorage.getItem("token"));
   const client = new ApiClient(
@@ -31,7 +30,7 @@ const ManagerDash = () => {
 
       </div>
       <div className="px-20 py-10">
-        <ManagerRequests client={client}/>
+        
       </div>
       <div className="text-2xl">
         Upcoming . . .
@@ -43,4 +42,4 @@ const ManagerDash = () => {
   );
 };
 
-export default ManagerDash;
+export default CourseManagerDash;
