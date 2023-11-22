@@ -28,18 +28,16 @@ const Login = (props) => {
           // "Admissions",
 
           if (role === "Director") {
-            router.push("/dashboard/")
+            router.push("/dashboard/");
           } else if (role === "Admin") {
-            router.push("/admin/")
+            router.push("/admin/");
           } else if (role === "Manager") {
-            router.push("/manager/")
+            router.push("/manager/");
           } else if (role === "Course Manager") {
-            router.push("/dashboard/")
+            router.push("/dashboard/");
           } else {
-            router.push("/dashboard/")
+            router.push("/dashboard/");
           }
-          
-          ;
         }
       })
       .catch((error) => {
