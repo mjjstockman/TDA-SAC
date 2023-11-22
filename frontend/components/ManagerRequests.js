@@ -9,13 +9,11 @@ const ManagerRequests = (props) => {
   const updateCurrentUser = async () => {
     const response = await props.client.getUserByToken(token);
     const userId = response.data._id;
-    console.log("Current User ID:", userId);
     setCurrentUser(userId);
   };
   
   const refreshList = async () => {
     await updateCurrentUser();
-    console.log("Before Refresh - Current User ID:", currentUser);
   
     const response = await props.client.getHolidays();
     const filteredHolidays = response.data.filter(
@@ -23,8 +21,6 @@ const ManagerRequests = (props) => {
     );
   
     setHolidays(filteredHolidays);
-    console.log("After Refresh - Current User ID:", currentUser);
-    console.log("Filtered Holidays:", filteredHolidays);
   };
 
   const approveRequest = (id) => {
