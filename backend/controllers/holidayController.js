@@ -55,3 +55,51 @@ exports.register = async (req, res, next) => {
     message: "Created Holiday Request",
   });
 };
+
+exports.update = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const holiday = await Holiday.findById(id);
+
+    if (!holiday) {
+      return next(createError(404, "Holiday not found"));
+    }
+
+    holiday.approved = true;
+
+    await holiday.save();
+
+    res.status(201).send({
+      message: "Holiday updated",
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({
+      message: "Internal Server Error",
+    });
+  }
+};
+
+exports.remove = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    if (!id) {
+      return next(createError(400, "Bad Request"));
+    }
+
+    const removeHoliday = await Holiday.findByIdAndDelete(id);
+
+    if (!removeHoliday) {
+      return res.status(404).send({
+        message: "Holiday not found",
+      });
+    }
+
+    res.send({
+      message: "Holiday deleted",
+    });
+  } catch (err) {
+    console.error(err);
+    return next(createError(500, "Internal Server Error"));
+  }
+};

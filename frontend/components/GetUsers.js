@@ -59,7 +59,7 @@ const GetUsers = (props) => {
                       type="checkbox"
                       className="scale-75 toggle checked:bg-green-500"
                       defaultChecked={user.active ? true : false}
-                      onClick={() => changeUserStatus(user.active)}
+                      onClick={() => changeUserStatus(user._id)}
                     />
                   </th>
                   <th>

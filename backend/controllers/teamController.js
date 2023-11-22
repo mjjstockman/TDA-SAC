@@ -28,21 +28,24 @@ exports.register = async (req, res, next) => {
 };
 
 exports.update = async (req, res, next) => {
+  const { id } = req.params;
+  const { newMembers } = req.body;
   try {
-    const { id } = req.params;
-    const { newMembers } = req.body;
-
-    if (!id || !newMembers) {
+    if (!id) {
       return next(createError(400, "Bad Request"));
     }
 
-    const team = await Team.findByIdAndUpdate(id, (members = newMembers));
+    const team = await Team.findById(id);
 
     if (!team) {
       return res.status(404).send({
         message: "Team not found",
       });
     }
+
+    team.members.push(newMembers);
+
+    await team.save();
 
     console.log("Team members updated successfully");
 

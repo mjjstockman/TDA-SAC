@@ -13,4 +13,8 @@ const holidaySchema = mongoose.Schema({
   approved: Boolean,
 });
 
+holidaySchema.statics.findByEmail = function (email) {
+  return this.findOne({ email });
+};
+
 module.exports.Holiday = mongoose.model("Holiday", holidaySchema);

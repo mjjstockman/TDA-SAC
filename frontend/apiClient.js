@@ -1,4 +1,6 @@
 import axios from "axios";
+const dayjs = require("dayjs");
+
 const url = "http://localhost:3001/";
 
 export class ApiClient {
@@ -33,6 +35,10 @@ export class ApiClient {
     return this.authenticatedCall("get", `${url}users`);
   }
 
+  getUserByToken(token) {
+    return this.authenticatedCall("get", `${url}user/${token}`);
+  }
+
   getTeams() {
     return this.authenticatedCall("get", `${url}teams`);
   }
@@ -40,7 +46,7 @@ export class ApiClient {
   getSicks() {
     return this.authenticatedCall("get", `${url}sicks`);
   }
-  
+
   getHolidays() {
     return this.authenticatedCall("get", `${url}holidays`);
   }
@@ -96,12 +102,9 @@ export class ApiClient {
     });
   }
 
-  updateTeam(id, name, manager, members, date, active) {
+  updateTeam(id, newMembers, active) {
     return this.authenticatedCall("put", `${url}team/update/${id}`, {
-      name,
-      manager,
-      members,
-      date,
+      newMembers,
       active,
     });
   }
@@ -121,13 +124,40 @@ export class ApiClient {
   }
 
   // for User to update own info
-  updateUser(_id, name, username, forename, surname, icon) {
-    return this.authenticatedCall("put", `${url}${_id}`, {
-      name,
-      username,
+  updateUser(id, forename, surname, password, icon) {
+    const num = Math.floor(Math.random() * 999) + 1;
+    const letter = surname.charAt(0);
+    const today = dayjs().format("DD/MM/YYYY | HH:mm:ss");
+
+    return this.authenticatedCall("put", `${url}user/update/${id}`, {
       forename,
       surname,
+      password,
+      username: forename + letter + num,
       icon,
+      lastPasswordChanged: today,
     });
+  }
+
+  approveRequest(id, approved) {
+    return this.authenticatedCall("put", `${url}holiday/update/${id}`, {
+      approved,
+    });
+  }
+
+  notification(email, message) {
+    const today = dayjs().format("DD/MM/YYYY | HH:mm:ss");
+
+    return this.authenticatedCall("put", `${url}user/notifications/${email}`, {
+      notification: {
+        message,
+        date: today,
+        seen: false,
+      },
+    });
+  }
+
+  denyRequest(id) {
+    return this.authenticatedCall("delete", `${url}holiday/delete/${id}`);
   }
 }
