@@ -2,8 +2,11 @@ const mongoose = require("mongoose");
 
 const courseSchema = mongoose.Schema({
   title: String,
-  username: String,
-  date: String,
+  userid: String,
+  email: String,
+  startDate: String,
+  endDate: String,
+  totalDays: Number,
   colour: String,
   description: String,
 });

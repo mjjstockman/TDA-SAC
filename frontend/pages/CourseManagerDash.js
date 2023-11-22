@@ -3,6 +3,7 @@ import CalendarUI from "@/components/Calendar";
 import Navigation from "@/components/Navigation";
 import React, { useState } from "react";
 import { ApiClient } from "@/apiClient";
+import CreateCourse from "@/components/CreateCourse";
 
 const CourseManagerDash = () => {
 
@@ -27,7 +28,7 @@ const CourseManagerDash = () => {
         <Navigation client={client}/>
       </div>
       <div className="text-2xl flex justify-between">
-
+        <CreateCourse client={client}/>
       </div>
       <div className="px-20 py-10">
         
