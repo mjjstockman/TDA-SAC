@@ -125,7 +125,7 @@ export class ApiClient {
 
   // for User to update own info
   updateUser(id, forename, surname, password, icon) {
-    const num = Math.random(Math.floor() * 10) + 1;
+    const num = Math.floor(Math.random() * 999) + 1;
     const letter = surname.charAt(0);
     const today = dayjs().format("DD/MM/YYYY | HH:mm:ss");
 
