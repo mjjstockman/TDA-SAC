@@ -35,7 +35,7 @@ const Login = (props) => {
           id="email"
           type="text"
           placeholder="Email"
-          className="input input-bordered w-full max-w-xs"
+          className="input input-bordered w-full max-w-xs outline-2 outline-secondary"
           disabled={disabled}
         />
         <input
@@ -46,7 +46,7 @@ const Login = (props) => {
           disabled={disabled}
         />
         <button
-          className="btn btn-outline btn-primary bg-TDAOrange"
+          className="btn btn-accent btn-outline-secondary"
           disabled={disabled}
         >
           Login
@@ -57,4 +57,3 @@ const Login = (props) => {
 };
 
 export default Login;
-// Mand
