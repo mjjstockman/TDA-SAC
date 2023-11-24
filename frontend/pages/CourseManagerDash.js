@@ -7,18 +7,18 @@ import CreateCourse from "@/components/CreateCourse";
 
 const CourseManagerDash = () => {
 
-  const [token, changeToken] = useState(window.localStorage.getItem("token"));
+  const [token, changeToken] = useState(localStorage.getItem("token"));
   const client = new ApiClient(
     () => token,
     () => logout()
   );
  
   const login = (token) => {
-    window.localStorage.setItem("token", token);
+    localStorage.setItem("token", token);
     changeToken(token);
   };
   const logout = () => {
-    window.localStorage.removeItem("token");
+    localStorage.removeItem("token");
     changeToken(undefined);
   };
 

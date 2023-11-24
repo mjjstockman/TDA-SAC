@@ -15,11 +15,11 @@ export default function Home() {
     }
   );
   const login = (token) => {
-    window.localStorage.setItem("token", token);
+    localStorage.setItem("token", token);
     changeToken(token);
   };
   const logout = () => {
-    window.localStorage.removeItem("token");
+    localStorage.removeItem("token");
     changeToken(undefined);
   };
   return (
