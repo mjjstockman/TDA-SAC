@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 
 const ManagerRequests = (props) => {
   const [holidays, setHolidays] = useState([]);
-  const token = window.localStorage.getItem("token");
+  const token = localStorage.getItem("token");
   const [currentUser, setCurrentUser] = useState(null);
   
   const updateCurrentUser = async () => {
