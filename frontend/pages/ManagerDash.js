@@ -1,26 +1,24 @@
 "use client"
 import CalendarUI from "@/components/Calendar";
-import DaysRemaining from "@/components/DaysRemaining";
 import Navigation from "@/components/Navigation";
-import Table from "@/components/Table";
 import React, { useState } from "react";
 import { ApiClient } from "@/apiClient";
 import ManagerRequests from "@/components/ManagerRequests";
 
 const ManagerDash = () => {
 
-  const [token, changeToken] = useState(window.localStorage.getItem("token"));
+  const [token, changeToken] = useState(localStorage.getItem("token"));
   const client = new ApiClient(
     () => token,
     () => logout()
   );
  
   const login = (token) => {
-    window.localStorage.setItem("token", token);
+    localStorage.setItem("token", token);
     changeToken(token);
   };
   const logout = () => {
-    window.localStorage.removeItem("token");
+    localStorage.removeItem("token");
     changeToken(undefined);
   };
 

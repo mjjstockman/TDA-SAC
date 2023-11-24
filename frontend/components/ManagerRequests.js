@@ -3,19 +3,31 @@ import React, { useState, useEffect } from "react";
 
 const ManagerRequests = (props) => {
   const [holidays, setHolidays] = useState([]);
-
-  const refreshList = () => {
-    props.client.getHolidays().then((response) => {
-      setHolidays(response.data.filter((holiday) => !holiday.approved));
-      console.log(response.data);
-    });
+  const token = localStorage.getItem("token");
+  const [currentUser, setCurrentUser] = useState(null);
+  
+  const updateCurrentUser = async () => {
+    const response = await props.client.getUserByToken(token);
+    const userId = response.data._id;
+    setCurrentUser(userId);
+  };
+  
+  const refreshList = async () => {
+    await updateCurrentUser();
+  
+    const response = await props.client.getHolidays();
+    const filteredHolidays = response.data.filter(
+      (holiday) => !holiday.approved && holiday.userid !== currentUser
+    );
+  
+    setHolidays(filteredHolidays);
   };
 
   const approveRequest = (id) => {
     props.client.approveRequest(id).then(() => refreshList());
   };
 
-  const approvalNotification = (email,  startDate) => {
+  const approvalNotification = (email, startDate) => {
     const message = `Holiday from ${startDate} Approved`;
     props.client.notification(email, message);
   };
@@ -31,7 +43,7 @@ const ManagerRequests = (props) => {
 
   useEffect(() => {
     refreshList();
-  }, []);
+  }, [token, currentUser]);
 
   return (
     <div>
@@ -59,7 +71,7 @@ const ManagerRequests = (props) => {
               <tr key={holiday._id}>
                 <td>
                   <div>
-                    <div className="font-bold text-center">{holiday.email}</div>
+                    <div className="font-bold">{holiday.email}</div>
                   </div>
                 </td>
                 <td>
@@ -67,7 +79,7 @@ const ManagerRequests = (props) => {
                     <div className="overflow-none">{holiday.title}</div>
                   </div>
                 </td>
-                <td className="text-center">
+                <td>
                   {holiday.startDate} | {holiday.endDate}
                 </td>
                 <td className="text-center">{holiday.totalDays}</td>

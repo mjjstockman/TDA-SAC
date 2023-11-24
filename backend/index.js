@@ -17,6 +17,7 @@ const userRoutes = require("./routes/userRoutes");
 const teamRoutes = require("./routes/teamRoutes");
 const sickRoutes = require("./routes/sickRoutes");
 const holidayRoutes = require("./routes/holidayRoutes");
+const courseRoutes = require("./routes/courseRoutes");
 
 const port = 3001;
 
@@ -168,6 +169,8 @@ app.get("/holidays", async (_, res, next) => {
     return next(createError(500, "Internal Server Error"));
   }
 });
+
+app.use("/course", courseRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

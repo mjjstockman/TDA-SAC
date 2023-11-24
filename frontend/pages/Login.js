@@ -34,7 +34,7 @@ const Login = (props) => {
           } else if (role === "Manager") {
             router.push("/manager/");
           } else if (role === "Course Manager") {
-            router.push("/dashboard/");
+            router.push("/course-manager/");
           } else {
             router.push("/dashboard/");
           }
