@@ -111,14 +111,14 @@ const Navigation = (props) => {
   };
 
   return (
-    <div>
+    <div className="z-10">
       <div className="flex gap-8">
-        <button className="btn btn-ghost btn-md" onClick={openModalProfile}>
+        <button className="btn btn-secondary btn-md" onClick={openModalProfile}>
           Profile
         </button>
 
         <div className="dropdown dropdown-hover dropdown-end">
-          <label tabIndex={0} className="btn btn-ghost btn-md">
+          <label tabIndex={0} className="btn btn-secondary btn-md">
             Add
           </label>
           <ul
@@ -127,7 +127,7 @@ const Navigation = (props) => {
           >
             <li className="my-2">
               <button
-                className="btn btn-ghost btn-md text-center"
+                className="btn btn-secondary btn-md text-center"
                 onClick={openModalOne}
               >
                 Sick Leave
@@ -135,7 +135,7 @@ const Navigation = (props) => {
             </li>
             <li>
               <button
-                className="btn btn-ghost btn-md text-center"
+                className="btn btn-secondary btn-md text-center"
                 onClick={openModalTwo}
               >
                 Annual Leave
@@ -290,7 +290,7 @@ const Navigation = (props) => {
               className="input input-bordered w-full max-w-xs"
             />
             <div className="flex flex-col">
-              <lable className="text-sm">Start date</lable>
+              <label className="text-sm">Start date</label>
               <input
                 id="startDate"
                 type="date"
@@ -300,7 +300,7 @@ const Navigation = (props) => {
               />
             </div>
             <div className="flex flex-col">
-              <lable className="text-sm">End date</lable>
+              <label className="text-sm">End date</label>
               <input
                 id="endDate"
                 type="date"

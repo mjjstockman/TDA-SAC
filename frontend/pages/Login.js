@@ -56,18 +56,18 @@ const Login = (props) => {
           id="email"
           type="text"
           placeholder="Email"
-          className="input input-bordered w-full max-w-xs outline-2 outline-secondary"
+          className="input input-bordered input-secondary text-secondary w-full max-w-xs"
           disabled={disabled}
         />
         <input
-          id="password"
+          id="password" 
           type="password"
           placeholder="Password"
-          className="input input-bordered w-full max-w-xs"
+          className="input input-bordered input-secondary text-secondary w-full max-w-xs"
           disabled={disabled}
         />
         <button
-          className="btn btn-accent btn-outline-secondary"
+          className="btn btn-accent"
           disabled={disabled}
         >
           Login

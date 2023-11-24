@@ -24,7 +24,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div>
+    <div className="text-black">
       <div  className='fixed top-0 right-0 p-8'>
         <Navigation client={client}/>
       </div>

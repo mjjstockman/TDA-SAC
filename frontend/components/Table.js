@@ -7,7 +7,7 @@ const Table = () => {
         <table className="table">
           {/* head */}
           <thead>
-            <tr>
+            <tr className="text-accent">
               <th>Reason</th>
               <th>Date</th>
               <th>Notes</th>
@@ -31,7 +31,7 @@ const Table = () => {
                 <button className="btn btn-ghost btn-xs">edit</button>
               </th>
               <th>
-                <button className="btn btn-ghost btn-xs">delete</button>
+                <button className="btn btn-accent btn-xs">delete</button>
               </th>
             </tr>
             {/* row 2 */}
@@ -49,7 +49,7 @@ const Table = () => {
                 <button className="btn btn-ghost btn-xs">edit</button>
               </th>
               <th>
-                <button className="btn btn-ghost btn-xs">delete</button>
+                <button className="btn btn-accent btn-xs">delete</button>
               </th>
             </tr>
           </tbody>

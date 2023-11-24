@@ -86,7 +86,7 @@ const CalendarUI = () => {
                     </button>
                     ) : (
                       <button
-                      className="text-black h-10 w-10 rounded-xl grid place-content-center hover:border-2 focus:border-2 focus:border-red-500 border-gray-500 hover:scale-110 transition-all cursor-pointer select-none"
+                      className="text-black h-10 w-10 rounded-xl grid place-content-center hover:border-2 focus:border-2 focus:border-orange-600 border-gray-500 hover:scale-110 transition-all cursor-pointer select-none"
                       onClick={() => {
                         setSelectDate(date);
                       }}

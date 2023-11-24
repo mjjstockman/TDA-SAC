@@ -25,19 +25,19 @@ const ManagerDash = () => {
   };
 
   return (
-    <div>
-      <div  className='fixed top-0 right-0 p-8'>
+    <div className="text-secondary">
+      <div  className='fixed top-0 right-0 p-8 z-10'>
         <Navigation client={client}/>
       </div>
-      <div className="text-2xl flex justify-between">
+      <div className="text-2xl flex justify-between z-0">
 
       </div>
-      <div className="px-20 py-10">
+      <div className="px-20 py-10 z-0">
         <ManagerRequests client={client}/>
       </div>
       <div className="text-2xl">
         Upcoming . . .
-        <div>
+        <div className="z-0">
           <CalendarUI />
         </div>
       </div>
