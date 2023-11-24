@@ -34,7 +34,7 @@ const Register = (props) => {
   const handleInputBlur = () => {
     setTimeout(() => {
       setDropdownVisible(false);
-    }, 100);
+    }, 150);
   };
 
   const handleTeamClick = (teamName) => {

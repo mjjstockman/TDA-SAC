@@ -23,7 +23,7 @@ export default function Home() {
     changeToken(undefined);
   };
   return (
-    <main className="flex bg-white min-h-screen flex-col items-center justify-between p-24">
+    <main className="flex bg-white min-h-screen items-center my-auto justify-center scale-150">
       <Login loggedIn={(token) => login(token)} client={client} />
     </main>
   );

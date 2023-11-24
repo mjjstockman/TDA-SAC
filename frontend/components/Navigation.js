@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { FaXmark, FaRegBell } from "react-icons/fa6";
 
 const Navigation = (props) => {
-  const token = localStorage.getItem("token");
+  const token = window.localStorage.getItem("token");
   const [currentUser, setCurrentUser] = useState("");
   const [notifications, setNotifications] = useState([]);
   const [modalOneOpen, setModalOneOpen] = useState(false);
