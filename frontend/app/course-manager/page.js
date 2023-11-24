@@ -1,3 +1,4 @@
+"use client"
 import CourseManagerDash from '@/pages/CourseManagerDash';
 import React from "react";
 
