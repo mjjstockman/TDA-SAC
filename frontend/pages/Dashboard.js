@@ -25,7 +25,7 @@ const Dashboard = () => {
   useEffect(() => {
     changeToken(localStorage.getItem("token"));
   }, []);
-};
+
 
   return (
     <div>
@@ -47,5 +47,5 @@ const Dashboard = () => {
       </div>
     </div>
   );
-
+};
 export default Dashboard;
