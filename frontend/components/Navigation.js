@@ -1,11 +1,29 @@
 "use client";
-import React, { useState } from "react";
-import { FaXmark } from "react-icons/fa6";
+import React, { useState, useEffect } from "react";
+import { FaXmark, FaRegBell } from "react-icons/fa6";
 
 const Navigation = (props) => {
+  const token = window.localStorage.getItem("token");
+  const [currentUser, setCurrentUser] = useState("");
+  const [notifications, setNotifications] = useState([]);
   const [modalOneOpen, setModalOneOpen] = useState(false);
   const [startingDate, setStartDate] = useState("");
   const [endingDate, setEndDate] = useState("");
+  const [modalTwoOpen, setModalTwoOpen] = useState(false);
+  const [modalProfileOpen, setModalProfileOpen] = useState(false);
+  const [checked, setChecked] = useState(false);
+
+  const refreshList = () => {
+    props.client.getUserByToken(token).then((response) => {
+      setCurrentUser(response.data);
+      setNotifications(response.data.notifications);
+      console.log(currentUser);
+    });
+  };
+
+  useEffect(() => {
+    refreshList();
+  }, []);
 
   const openModalOne = () => {
     setModalOneOpen(true);
@@ -14,7 +32,6 @@ const Navigation = (props) => {
   const closeModalOne = () => {
     setModalOneOpen(false);
   };
-  const [modalTwoOpen, setModalTwoOpen] = useState(false);
 
   const openModalTwo = () => {
     setModalTwoOpen(true);
@@ -22,6 +39,14 @@ const Navigation = (props) => {
 
   const closeModalTwo = () => {
     setModalTwoOpen(false);
+  };
+
+  const openModalProfile = () => {
+    setModalProfileOpen(true);
+  };
+
+  const closeModalProfile = () => {
+    setModalProfileOpen(false);
   };
 
   const handleStartDateChange = (e) => {
@@ -38,8 +63,8 @@ const Navigation = (props) => {
     e.preventDefault();
 
     const title = e.target.reason.value;
-    const userid = "65577201118acb5771ce13cf";
-    const email = "user4@test.com";
+    const userid = currentUser._id;
+    const email = currentUser.email;
     const note = e.target.doctorNote.value;
     const colour = "#FFA500";
 
@@ -52,8 +77,8 @@ const Navigation = (props) => {
     e.preventDefault();
 
     const title = e.target.title.value;
-    const userid = "65577201118acb5771ce13cf";
-    const email = "user4@test.com";
+    const userid = currentUser._id;
+    const email = currentUser.email;
     const startDate = startingDate;
     const endDate = endingDate;
     const note = e.target.holidayNote.value;
@@ -72,20 +97,35 @@ const Navigation = (props) => {
     e.target.reset();
   };
 
+  const submitUpdateProfileHandler = (e, id) => {
+    e.preventDefault();
+
+    const forename = e.target.forename.value;
+    const surname = e.target.surname.value;
+    const password = e.target.password.value;
+    const icon = e.target.icon.value;
+
+    props.client.updateUser(id, forename, surname, password, icon);
+
+    e.target.reset();
+  };
+
   return (
     <div>
-      <div className="gap-8">
-        <button className="btn btn-ghost btn-md">Profile</button>
-        <button className="btn btn-ghost btn-md">Notifications</button>
+      <div className="flex gap-8">
+        <button className="btn btn-ghost btn-md" onClick={openModalProfile}>
+          Profile
+        </button>
+
         <div className="dropdown dropdown-hover dropdown-end">
-          <label tabIndex={0} className="btn btn-ghost btn-md ">
+          <label tabIndex={0} className="btn btn-ghost btn-md">
             Add
           </label>
           <ul
             tabIndex={0}
             className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-fit"
           >
-            <li>
+            <li className="my-2">
               <button
                 className="btn btn-ghost btn-md text-center"
                 onClick={openModalOne}
@@ -102,6 +142,91 @@ const Navigation = (props) => {
               </button>
             </li>
           </ul>
+        </div>
+
+        <div className="dropdown dropdown-hover dropdown-end">
+          <label tabIndex={0} className="indicator btn btn-ghost btn-md">
+            <FaRegBell size={16} className="w-fit h-fit place-items-center" />
+            <span className="indicator-item badge badge-primary">
+              {notifications.length}
+            </span>
+          </label>
+          <ul className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+            {notifications.map((notification) => (
+              <li className="indicator w-fit my-2" key={notification.date}>
+                <div className="shadow-md p-4">
+                  <div>
+                    {notification.seen ? (
+                      ""
+                    ) : (
+                      <span className="indicator-item badge badge-secondary"></span>
+                    )}
+                    {notification.message}
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      {/* Profile Modal */}
+      <div
+        className="modal fixed flex justify-center items-center"
+        open={modalProfileOpen}
+        onKeyDown={(e) => e.key === "Escape" && closeModalProfile()}
+        onClick={(e) => e.target === e.currentTarget && closeModalProfile()}
+      >
+        <div className="modal-box flex flex-col items-center">
+          <button
+            className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+            onClick={closeModalProfile}
+          >
+            <FaXmark />
+          </button>
+          <h3 className="font-bold text-lg">Profile Modal</h3>
+          <form
+            className="py-4 gap-4 flex flex-col items-center"
+            onSubmit={(e) => {
+              submitUpdateProfileHandler(e, currentUser._id);
+              closeModalProfile();
+            }}
+          >
+            <input
+              id="forename"
+              type="text"
+              placeholder="Forename here"
+              className="input input-bordered w-full max-w-xs"
+            />
+            <input
+              id="surname"
+              type="text"
+              placeholder="Surname here"
+              className="input input-bordered w-full max-w-xs"
+            />
+            <div className="form-control">
+              <label className="label cursor-pointer gap-4">
+                <input
+                  id="password"
+                  type={checked ? "text" : "password"}
+                  placeholder="password here"
+                  className="label-text input input-bordered w-full max-w-xs"
+                />
+                <input
+                  type="checkbox"
+                  checked={checked}
+                  onChange={() => setChecked(!checked)}
+                  className="checkbox"
+                />
+              </label>
+            </div>
+            <input
+              id="icon"
+              type="file"
+              className="file-input w-full max-w-xs"
+            />
+            <button className="btn btn-ghost btn-md text-center">Submit</button>
+          </form>
         </div>
       </div>
 
