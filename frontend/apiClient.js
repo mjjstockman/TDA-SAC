@@ -160,4 +160,24 @@ export class ApiClient {
   denyRequest(id) {
     return this.authenticatedCall("delete", `${url}holiday/delete/${id}`);
   }
+
+  registerCourse(
+    title,
+    userid,
+    email,
+    startDate,
+    endDate,
+    colour,
+    description
+  ) {
+    return this.authenticatedCall("post", `${url}course/register`, {
+      title,
+      userid,
+      email,
+      startDate,
+      endDate,
+      colour,
+      description,
+    });
+  }
 }

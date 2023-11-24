@@ -1,8 +1,6 @@
 "use client"
 import CalendarUI from "@/components/Calendar";
-import DaysRemaining from "@/components/DaysRemaining";
 import Navigation from "@/components/Navigation";
-import Table from "@/components/Table";
 import React, { useState } from "react";
 import { ApiClient } from "@/apiClient";
 import ManagerRequests from "@/components/ManagerRequests";
